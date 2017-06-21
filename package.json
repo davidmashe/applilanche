@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node ./server/server.js"
+    "dev": "node ./server/server.js",
+    "build":"echo 'building applilanche' && node_modules/webpack/bin/webpack.js -p && node server/server.js"
   },
   "keywords": [],
   "author": "",
