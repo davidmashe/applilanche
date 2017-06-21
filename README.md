@@ -26,7 +26,7 @@ SETUP INSTRUCTIONS:
 
 -set your gmail address to GMAIL_ADRESS
 
--to run applilanche: inside the aplilanche directory `npm run dev`
+-to run applilanche: inside the aplilanche directory `npm run build`
 
 -if you want Applilanche to store its data in a local file instead of postgres, set an environment variable STORE_LOCAL to "true". This is not a smart long term option, but can get you started if you are not used to setting up postgres locally.
 
