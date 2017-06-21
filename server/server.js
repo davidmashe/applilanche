@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 const PORT = 3000;
-const USE_POSTGRES = (process.env.STORE_LOCAL) ? false : true;
+const USE_POSTGRES = (process.env.STORE_LOCAL === 'true') ? false : true;
 const GMAIL_API_KEY = process.env.GMAIL_API_KEY;
 
 const createController = require('./controller/controller.js');
