@@ -12,12 +12,16 @@ class Email extends React.Component {
 	}
 
 	render() {
+
+		const { handleTextInput } = this.props;
+
 		return (
 			<div>
 				<h1>Apply By Email</h1>
 				<button>Apply</button>
 				<EmailSubmitList 
 					coverLetters={this.props.coverLetters}
+					handleTextInput={handleTextInput}
 				/>
 			</div>
 		);

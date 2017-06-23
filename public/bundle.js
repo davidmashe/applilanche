@@ -11403,6 +11403,9 @@ var Email = function (_React$Component) {
 	_createClass(Email, [{
 		key: 'render',
 		value: function render() {
+			var handleTextInput = this.props.handleTextInput;
+
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -11417,7 +11420,8 @@ var Email = function (_React$Component) {
 					'Apply'
 				),
 				_react2.default.createElement(_emailSubmitList2.default, {
-					coverLetters: this.props.coverLetters
+					coverLetters: this.props.coverLetters,
+					handleTextInput: handleTextInput
 				})
 			);
 		}
@@ -11467,6 +11471,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 		meaninglessAction: function meaninglessAction() {
 			dispatch({ type: "DUMMY_CLICK", value: 1 });
+		},
+
+		handleTextInput: function handleTextInput(index, subIndex, value) {
+			console.log(index, subIndex, value);
 		}
 
 	};
@@ -11552,8 +11560,10 @@ var EmailSubmit = function (_React$Component) {
 		value: function render() {
 			var _props = this.props,
 			    coverLetterTypes = _props.coverLetterTypes,
-			    handleType = _props.handleType;
+			    index = _props.index;
 
+
+			var handleType = this.props.handleTextInput;
 
 			return _react2.default.createElement(
 				"div",
@@ -11562,14 +11572,14 @@ var EmailSubmit = function (_React$Component) {
 					type: "text",
 					placeholder: "email",
 					onChange: function onChange(event) {
-						return handleType(0, event.target.value);
+						handleType(index, 0, event.target.value);
 					}
 				}),
 				_react2.default.createElement("input", {
 					type: "text",
 					placeholder: "company or opportunity",
 					onChange: function onChange(event) {
-						return handleType(1, event.target.value);
+						handleType(index, 1, event.target.value);
 					}
 				}),
 				this.getRadioButtons(),
@@ -11577,7 +11587,7 @@ var EmailSubmit = function (_React$Component) {
 					type: "text",
 					placeholder: "notes (optional)",
 					onChange: function onChange(event) {
-						return handleType(2, event.target.value);
+						handleType(index, 2, event.target.value);
 					}
 				})
 			);
@@ -11605,7 +11615,7 @@ var EmailSubmitList = function EmailSubmitList(props) {
 				coverLetters: coverLetters,
 				handleRadioCheck: handleRadioCheck,
 				index: element,
-				handleType: handleTextInput
+				handleTextInput: handleTextInput
 			});
 		})
 	);

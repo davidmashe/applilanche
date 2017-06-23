@@ -23,8 +23,14 @@ class EmailSubmit extends React.Component {
 						<span>
 							<label value={element}>{element}</label>
 							<input 
-								type="radio" 
-								onChange={this.props.handleRadioCheck}
+								type="radio"
+								value={} 
+								onChange={
+									(event) => {
+										const i = this.props.index;
+										this.props.handleRadioCheck(i,element);
+									}
+								}
 							/>
 						</span>	
 					)
@@ -35,25 +41,39 @@ class EmailSubmit extends React.Component {
 
 	render() {
 
-		const { coverLetterTypes, handleType } = this.props;
+		const { coverLetterTypes, index } = this.props;
+
+		const handleType = this.props.handleTextInput;
 
 		return (
 			<div className="email-submit-box">
 				<input 
 					type="text" 
 					placeholder="email"
-					onChange={(event) => handleType(0, event.target.value)}
+					onChange={
+						(event) => {
+							handleType(index, 0, event.target.value)
+						}
+					}
 				/>
 				<input 
 					type="text" 
 					placeholder="company or opportunity"
-					onChange={(event) => handleType(1, event.target.value)}
+					onChange={
+						(event) => {
+							handleType(index, 1, event.target.value)
+						}
+					}
 				/>
 				{this.getRadioButtons()}
 				<input 
 					type="text" 
 					placeholder="notes (optional)"
-					onChange={(event) => handleType(2, event.target.value)}
+					onChange={
+						(event) => {
+							handleType(index, 2, event.target.value)
+						}
+					}
 				/>
 			</div>
 		);
@@ -77,7 +97,7 @@ const EmailSubmitList = (props) => {
 						coverLetters={coverLetters}
 						handleRadioCheck={handleRadioCheck}
 						index={element}
-						handleType={handleTextInput}
+						handleTextInput={handleTextInput}
 					/>
 				);
 			})}

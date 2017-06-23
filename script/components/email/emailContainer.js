@@ -18,6 +18,10 @@ const mapDispatchToProps = (dispatch) => {
 
 		meaninglessAction : () => {
 			dispatch({type:"DUMMY_CLICK", value: 1});
+		},
+
+		handleTextInput : (index, subIndex, value) => {
+			console.log(index, subIndex, value);
 		}
 
 	}
