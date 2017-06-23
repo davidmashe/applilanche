@@ -1,0 +1,18 @@
+.header-list > li {
+	margin-left:5px;
+	display:inline-block;
+}
+
+.header-item {
+	cursor:pointer;
+}
+
+.header-item:hover {
+	color:blue;
+	text-decoration:underline;
+}
+
+.email-submit-box {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}

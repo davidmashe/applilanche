@@ -1,11 +1,14 @@
 import Redux from 'redux';
 import { connect } from 'react-redux'; 
-import Main from './main.js';
+import Email from './email.js';
 
 const mapStateToProps = (state) => {
 
+	const { dummyValue } = state.email;
+	const { coverLetters } = state.appData;
 	return {
-		headerSelected:state.header.headerSelected
+		dummyValue,
+		coverLetters
 	};
 }
 
@@ -15,13 +18,9 @@ const mapDispatchToProps = (dispatch) => {
 
 		meaninglessAction : () => {
 			dispatch({type:"DUMMY_CLICK", value: 1});
-		},
-
-		handleHeaderTabChange : (target) => {
-			dispatch({type:"HEADER_TAB_CHANGE", value:target});
 		}
 
 	}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Main);
+export default connect(mapStateToProps,mapDispatchToProps)(Email);

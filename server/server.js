@@ -5,9 +5,15 @@ const PORT = 3000;
 const USE_POSTGRES = (process.env.STORE_LOCAL === 'true') ? false : true;
 const GMAIL_API_KEY = process.env.GMAIL_API_KEY;
 
+const db;
+
+if (USE_POSTGRES) {
+	// make db connection here
+}
+
 const createController = require('./controller/controller.js');
 
-createController(app,null);
+createController(app,db);
 
 app.use(express.static('public'));
 
