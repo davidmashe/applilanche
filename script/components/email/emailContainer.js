@@ -4,23 +4,20 @@ import Email from './email.js';
 
 const mapStateToProps = (state) => {
 
-	const { dummyValue, emailSubmitData } = state.email;
+	const { dummyValue, emailSubmitData, tabSelected } = state.email;
 	const { coverLetters } = state.appData;
 
 	return {
 		dummyValue,
 		coverLetters,
-		emailSubmitData
+		emailSubmitData,
+		tabSelected
 	};
 }
 
 const mapDispatchToProps = (dispatch) => {
 
 	return {
-
-		meaninglessAction : () => {
-			dispatch({type:"DUMMY_CLICK", value: 1});
-		},
 
 		handleTextInput : (index, subIndex, value) => {
 			const actionValue = {
@@ -38,6 +35,10 @@ const mapDispatchToProps = (dispatch) => {
 				value
 			}
 			dispatch({type:"UPDATE_EMAIL_VALUE",value:actionValue});
+		},
+
+		emailTabChange : (value) => {
+			dispatch({type:"EMAIL_TAB_CHANGE",value:value});
 		}
 
 	}

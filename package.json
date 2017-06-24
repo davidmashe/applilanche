@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node ./server/server.js",
-    "build":"echo 'building applilanche' && node_modules/webpack/bin/webpack.js -p && node server/server.js"
+    "build":"export NODE_ENV=production && node_modules/webpack/bin/webpack.js -p"
   },
   "keywords": [],
   "author": "",

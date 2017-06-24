@@ -37,6 +37,9 @@ const email = (state,action) => {
 
 			return squish(state,{emailSubmitData:emailSubmitDataCopy});
 
+		case "EMAIL_TAB_CHANGE":
+			return squish(state,{tabSelected:action.value});	
+
 		default:	
 			return squish(state,{});
 	}

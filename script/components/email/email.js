@@ -1,5 +1,6 @@
 import React from 'react';
-import EmailSubmitList from './emailSubmitList';
+import EmailSubmitList from './emailSubmitList.js';
+import EmailUpload from './emailUpload.js';
 
 class Email extends React.Component {
 
@@ -10,20 +11,50 @@ class Email extends React.Component {
 	render() {
 
 		const { handleTextInput, handleRadioCheck,
-			emailSubmitData } = this.props;
-
-			console.log(emailSubmitData);
+			emailSubmitData, tabSelected, emailTabChange } = this.props;
 
 		return (
 			<div>
-				<h1>Apply By Email</h1>
-				<button>Apply</button>
-				<EmailSubmitList 
-					coverLetters={this.props.coverLetters}
-					handleTextInput={handleTextInput}
-					handleRadioCheck={handleRadioCheck}
-					emailSubmitData={emailSubmitData}
-				/>
+				<ul className="header-list">
+					<li 
+						className="header-item"
+						onClick={() => {emailTabChange("submit")}} 
+					>
+						Submit Emails
+					</li>
+					<li 
+						className="header-item"
+						onClick={() => {emailTabChange("upload")}} 
+					>
+						Upload Spreadsheet
+					</li>
+				</ul>
+				{ (tabSelected === "submit") ?
+					<div>
+					<h1>Apply By Email</h1>
+					<button>Apply</button>
+					<EmailSubmitList 
+						coverLetters={this.props.coverLetters}
+						handleTextInput={handleTextInput}
+						handleRadioCheck={handleRadioCheck}
+						emailSubmitData={emailSubmitData}
+					/>
+					</div>
+					: <div></div> 
+				}					
+				{ (tabSelected === "upload") ?
+					<div>
+					<h1>Upload CSV</h1>
+					<button>Choose File</button>
+					<EmailUpload 
+						coverLetters={this.props.coverLetters}
+						handleTextInput={handleTextInput}
+						handleRadioCheck={handleRadioCheck}
+						emailSubmitData={emailSubmitData}
+					/>
+					</div>
+					: <div></div>
+				}
 			</div>
 		);
 	}

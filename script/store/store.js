@@ -4,12 +4,13 @@ import reducer from '../reducers/reducer.js'
 const array = [0,1,2,3,4];
 
 const emailSubmitArray = 
-	array.map(() => {
+	array.map((element) => {
 		return {
 			0 : "",
 			1 : "",
 			2 : "",
-			"radio" : "default"	
+			"radio" : "default"
+			//,visible : (element === 0) ? true : false	
 		}
 	});
 
@@ -17,7 +18,8 @@ const DEFAULT_STATE = {
 	header:{headerSelected:0},
 	scraper:{},
 	email:{
-		emailSubmitData : emailSubmitArray
+		emailSubmitData : emailSubmitArray,
+		tabSelected : ""
 	},
 	appData:{
 		coverLetters:["default","snarky"]
