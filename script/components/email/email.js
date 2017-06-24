@@ -13,8 +13,6 @@ class Email extends React.Component {
 		const { handleTextInput, handleRadioCheck, emailSubmitData, 
 			tabSelected, emailTabChange, submitEmailsToAPI } = this.props;
 
-			console.log(emailSubmitData);
-
 		return (
 			<div>
 				<ul className="header-list">
