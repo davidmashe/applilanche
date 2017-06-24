@@ -4,11 +4,11 @@ const createController = (app,dbConnection) => {
 		res.send("/test working");
 	});
 
-	app.get("/emails/:data",(req,res) => {
-		res.send("you sent: " + JSON.stringify(req.params.data));
+	app.get("/emails",(req,res) => {
+		res.send("breh");
 	});
 
-	app.post("/emails/",(req,res) => {
+	app.post("/emails",(req,res) => {
 		res.send("you sent: " + JSON.stringify(req.body));
 	});
 }

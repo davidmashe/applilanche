@@ -14,11 +14,13 @@ if (USE_POSTGRES) {
 
 const createController = require('./controller/controller.js');
 
-createController(app,db);
-
 app.use(express.static('public'));
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+
+
+createController(app,db);
 
 app.listen(PORT,() => {
 	console.log("Applilanche running on",PORT);
