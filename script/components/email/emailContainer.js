@@ -1,6 +1,8 @@
 import Redux from 'redux';
 import { connect } from 'react-redux'; 
 import Email from './email.js';
+import { get } from '../../action/api.js';
+import { API_ROOT } from '../../constants/constants.js';
 
 const mapStateToProps = (state) => {
 
@@ -39,6 +41,20 @@ const mapDispatchToProps = (dispatch) => {
 
 		emailTabChange : (value) => {
 			dispatch({type:"EMAIL_TAB_CHANGE",value:value});
+		},
+
+		submitEmailsToAPI : (emailsObject) => {
+
+			const callback = (response) => {
+				dispatch({type:"API_RESPONSE.SUBMIT_EMAILS",value:response});
+			}
+
+			//dispatch({type:"API_REQUEST.SUBMIT_EMAILS",value:emailsObject});
+
+			// TODO - THIS MUST ALSO BE URL ENCODED
+			const data = + JSON.stringify(emailsObject);
+
+			get(API_ROOT + "/emails/" + data,callback);
 		}
 
 	}

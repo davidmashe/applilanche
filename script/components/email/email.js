@@ -10,8 +10,10 @@ class Email extends React.Component {
 
 	render() {
 
-		const { handleTextInput, handleRadioCheck,
-			emailSubmitData, tabSelected, emailTabChange } = this.props;
+		const { handleTextInput, handleRadioCheck, emailSubmitData, 
+			tabSelected, emailTabChange, submitEmailsToAPI } = this.props;
+
+			console.log(emailSubmitData);
 
 		return (
 			<div>
@@ -32,7 +34,11 @@ class Email extends React.Component {
 				{ (tabSelected === "submit") ?
 					<div>
 					<h1>Apply By Email</h1>
-					<button>Apply</button>
+					<button 
+						onClick={() => { submitEmailsToAPI(emailSubmitData) }} 
+					>
+						Apply
+					</button>
 					<EmailSubmitList 
 						coverLetters={this.props.coverLetters}
 						handleTextInput={handleTextInput}
