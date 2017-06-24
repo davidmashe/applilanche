@@ -11299,11 +11299,22 @@ var _reducer2 = _interopRequireDefault(_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var array = [0, 1, 2, 3, 4];
+
+var emailSubmitArray = array.map(function () {
+	return {
+		0: "",
+		1: "",
+		2: "",
+		"radio": "default"
+	};
+});
+
 var DEFAULT_STATE = {
 	header: { headerSelected: 0 },
 	scraper: {},
 	email: {
-		dummyValue: 1
+		emailSubmitData: emailSubmitArray
 	},
 	appData: {
 		coverLetters: ["default", "snarky"]
@@ -11394,17 +11405,18 @@ var Email = function (_React$Component) {
 		_classCallCheck(this, Email);
 
 		return _possibleConstructorReturn(this, (Email.__proto__ || Object.getPrototypeOf(Email)).call(this, props));
-
-		// this.handleClick = (event) => {
-		// 	this.props.meaninglessAction();
-		// };
 	}
 
 	_createClass(Email, [{
 		key: 'render',
 		value: function render() {
-			var handleTextInput = this.props.handleTextInput;
+			var _props = this.props,
+			    handleTextInput = _props.handleTextInput,
+			    handleRadioCheck = _props.handleRadioCheck,
+			    emailSubmitData = _props.emailSubmitData;
 
+
+			console.log(emailSubmitData);
 
 			return _react2.default.createElement(
 				'div',
@@ -11421,7 +11433,9 @@ var Email = function (_React$Component) {
 				),
 				_react2.default.createElement(_emailSubmitList2.default, {
 					coverLetters: this.props.coverLetters,
-					handleTextInput: handleTextInput
+					handleTextInput: handleTextInput,
+					handleRadioCheck: handleRadioCheck,
+					emailSubmitData: emailSubmitData
 				})
 			);
 		}
@@ -11456,12 +11470,16 @@ var _email2 = _interopRequireDefault(_email);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
-	var dummyValue = state.email.dummyValue;
+	var _state$email = state.email,
+	    dummyValue = _state$email.dummyValue,
+	    emailSubmitData = _state$email.emailSubmitData;
 	var coverLetters = state.appData.coverLetters;
+
 
 	return {
 		dummyValue: dummyValue,
-		coverLetters: coverLetters
+		coverLetters: coverLetters,
+		emailSubmitData: emailSubmitData
 	};
 };
 
@@ -11474,7 +11492,21 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		},
 
 		handleTextInput: function handleTextInput(index, subIndex, value) {
-			console.log(index, subIndex, value);
+			var actionValue = {
+				index: index,
+				subIndex: subIndex,
+				value: value
+			};
+			dispatch({ type: "UPDATE_EMAIL_VALUE", value: actionValue });
+		},
+
+		handleRadioCheck: function handleRadioCheck(index, value) {
+			var actionValue = {
+				index: index,
+				subIndex: "radio",
+				value: value
+			};
+			dispatch({ type: "UPDATE_EMAIL_VALUE", value: actionValue });
 		}
 
 	};
@@ -11549,7 +11581,12 @@ var EmailSubmit = function (_React$Component) {
 						),
 						_react2.default.createElement("input", {
 							type: "radio",
-							onChange: _this2.props.handleRadioCheck
+							value: element,
+							onChange: function onChange(event) {
+								var i = _this2.props.index;
+								_this2.props.handleRadioCheck(i, element);
+							},
+							checked: _this2.props.data.radio === element
 						})
 					);
 				})
@@ -11560,7 +11597,8 @@ var EmailSubmit = function (_React$Component) {
 		value: function render() {
 			var _props = this.props,
 			    coverLetterTypes = _props.coverLetterTypes,
-			    index = _props.index;
+			    index = _props.index,
+			    data = _props.data;
 
 
 			var handleType = this.props.handleTextInput;
@@ -11573,14 +11611,16 @@ var EmailSubmit = function (_React$Component) {
 					placeholder: "email",
 					onChange: function onChange(event) {
 						handleType(index, 0, event.target.value);
-					}
+					},
+					value: data[0]
 				}),
 				_react2.default.createElement("input", {
 					type: "text",
 					placeholder: "company or opportunity",
 					onChange: function onChange(event) {
 						handleType(index, 1, event.target.value);
-					}
+					},
+					value: data[1]
 				}),
 				this.getRadioButtons(),
 				_react2.default.createElement("input", {
@@ -11588,7 +11628,8 @@ var EmailSubmit = function (_React$Component) {
 					placeholder: "notes (optional)",
 					onChange: function onChange(event) {
 						handleType(index, 2, event.target.value);
-					}
+					},
+					value: data[2]
 				})
 			);
 		}
@@ -11600,8 +11641,11 @@ var EmailSubmit = function (_React$Component) {
 var EmailSubmitList = function EmailSubmitList(props) {
 	var coverLetters = props.coverLetters,
 	    handleRadioCheck = props.handleRadioCheck,
-	    handleTextInput = props.handleTextInput;
+	    handleTextInput = props.handleTextInput,
+	    emailSubmitData = props.emailSubmitData;
 
+
+	console.log(props);
 
 	var array = [0, 1, 2, 3, 4];
 
@@ -11615,7 +11659,8 @@ var EmailSubmitList = function EmailSubmitList(props) {
 				coverLetters: coverLetters,
 				handleRadioCheck: handleRadioCheck,
 				index: element,
-				handleTextInput: handleTextInput
+				handleTextInput: handleTextInput,
+				data: emailSubmitData[element]
 			});
 		})
 	);
@@ -11925,13 +11970,32 @@ var header = function header(state, action) {
 		case "HEADER_TAB_CHANGE":
 			return squish(state, { headerSelected: action.value });
 		default:
-			console.log("reducer received an action that it is ignoring:", action.type);
 			return squish(state, {});
 	}
 };
 
 var email = function email(state, action) {
-	return squish(state, {});
+
+	console.log(state);
+
+	switch (action.type) {
+
+		case "UPDATE_EMAIL_VALUE":
+
+			var index = action.value.index;
+			var subIndex = action.value.subIndex;
+
+			var emailSubmitDataCopy = state.emailSubmitData.filter(function () {
+				return true;
+			});
+
+			emailSubmitDataCopy[index][subIndex] = action.value.value;
+
+			return squish(state, { emailSubmitData: emailSubmitDataCopy });
+
+		default:
+			return squish(state, {});
+	}
 };
 
 var scraper = function scraper(state, action) {

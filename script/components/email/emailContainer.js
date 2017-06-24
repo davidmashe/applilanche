@@ -4,11 +4,13 @@ import Email from './email.js';
 
 const mapStateToProps = (state) => {
 
-	const { dummyValue } = state.email;
+	const { dummyValue, emailSubmitData } = state.email;
 	const { coverLetters } = state.appData;
+
 	return {
 		dummyValue,
-		coverLetters
+		coverLetters,
+		emailSubmitData
 	};
 }
 
@@ -21,7 +23,21 @@ const mapDispatchToProps = (dispatch) => {
 		},
 
 		handleTextInput : (index, subIndex, value) => {
-			console.log(index, subIndex, value);
+			const actionValue = {
+				index,
+				subIndex,
+				value
+			}
+			dispatch({type:"UPDATE_EMAIL_VALUE",value:actionValue});
+		},
+
+		handleRadioCheck : (index,value) => {
+			const actionValue = {
+				index,
+				subIndex:"radio",
+				value
+			}
+			dispatch({type:"UPDATE_EMAIL_VALUE",value:actionValue});
 		}
 
 	}

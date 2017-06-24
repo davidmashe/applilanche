@@ -5,15 +5,14 @@ class Email extends React.Component {
 
 	constructor(props){
 		super(props);
-
-		// this.handleClick = (event) => {
-		// 	this.props.meaninglessAction();
-		// };
 	}
 
 	render() {
 
-		const { handleTextInput } = this.props;
+		const { handleTextInput, handleRadioCheck,
+			emailSubmitData } = this.props;
+
+			console.log(emailSubmitData);
 
 		return (
 			<div>
@@ -22,6 +21,8 @@ class Email extends React.Component {
 				<EmailSubmitList 
 					coverLetters={this.props.coverLetters}
 					handleTextInput={handleTextInput}
+					handleRadioCheck={handleRadioCheck}
+					emailSubmitData={emailSubmitData}
 				/>
 			</div>
 		);

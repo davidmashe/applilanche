@@ -14,6 +14,7 @@ class EmailSubmit extends React.Component {
 	}
 
 	getRadioButtons() {
+
 		return (
 			<div>
 				<label value="cover letter:">cover letter -></label>
@@ -24,13 +25,14 @@ class EmailSubmit extends React.Component {
 							<label value={element}>{element}</label>
 							<input 
 								type="radio"
-								value={} 
+								value={element} 
 								onChange={
 									(event) => {
 										const i = this.props.index;
 										this.props.handleRadioCheck(i,element);
 									}
 								}
+								checked={this.props.data.radio === element}
 							/>
 						</span>	
 					)
@@ -41,7 +43,7 @@ class EmailSubmit extends React.Component {
 
 	render() {
 
-		const { coverLetterTypes, index } = this.props;
+		const { coverLetterTypes, index, data } = this.props;
 
 		const handleType = this.props.handleTextInput;
 
@@ -55,6 +57,7 @@ class EmailSubmit extends React.Component {
 							handleType(index, 0, event.target.value)
 						}
 					}
+					value={data[0]}
 				/>
 				<input 
 					type="text" 
@@ -64,6 +67,7 @@ class EmailSubmit extends React.Component {
 							handleType(index, 1, event.target.value)
 						}
 					}
+					value={data[1]}
 				/>
 				{this.getRadioButtons()}
 				<input 
@@ -74,6 +78,7 @@ class EmailSubmit extends React.Component {
 							handleType(index, 2, event.target.value)
 						}
 					}
+					value={data[2]}
 				/>
 			</div>
 		);
@@ -83,7 +88,10 @@ class EmailSubmit extends React.Component {
 
 const EmailSubmitList = (props) => {
 
-	const { coverLetters, handleRadioCheck, handleTextInput } = props;
+	const { coverLetters, handleRadioCheck, handleTextInput,
+		emailSubmitData } = props;
+
+	console.log(props);
 
 	const array = [0,1,2,3,4];
 
@@ -98,6 +106,7 @@ const EmailSubmitList = (props) => {
 						handleRadioCheck={handleRadioCheck}
 						index={element}
 						handleTextInput={handleTextInput}
+						data={emailSubmitData[element]}
 					/>
 				);
 			})}
