@@ -21,7 +21,7 @@ const header = (state,action) => {
 
 const email = (state,action) => {
 
-	console.log(state);
+	console.log(action);
 
 	switch (action.type) {
 
@@ -38,7 +38,10 @@ const email = (state,action) => {
 			return squish(state,{emailSubmitData:emailSubmitDataCopy});
 
 		case "EMAIL_TAB_CHANGE":
-			return squish(state,{tabSelected:action.value});	
+			return squish(state,{tabSelected:action.value});
+
+		case "API_RESPONSE.SUBMIT_EMAILS":	
+			return squish(state,{});
 
 		default:	
 			return squish(state,{});

@@ -11346,7 +11346,7 @@ module.exports = __webpack_require__(135);
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.get = undefined;
+exports.post = exports.get = undefined;
 
 var _ajax = __webpack_require__(119);
 
@@ -11356,6 +11356,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var get = exports.get = function get(url, callback) {
 	_ajax2.default.get(url, callback);
+};
+
+var post = exports.post = function post(url, body, callback) {
+	_ajax2.default.post(url, callback);
 };
 
 /***/ }),
@@ -11446,8 +11450,6 @@ var Email = function (_React$Component) {
 			    emailTabChange = _props.emailTabChange,
 			    submitEmailsToAPI = _props.submitEmailsToAPI;
 
-
-			console.log(emailSubmitData);
 
 			return _react2.default.createElement(
 				'div',
@@ -11604,9 +11606,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 				dispatch({ type: "API_RESPONSE.SUBMIT_EMAILS", value: response });
 			};
 
-			//dispatch({type:"API_REQUEST.SUBMIT_EMAILS",value:emailsObject});
+			//callback("dude");
 
-			(0, _api.get)(_constants.API_ROOT + "/emails/" + JSON.stringify(emailsObject), callback);
+			(0, _api.post)(_constants.API_ROOT + "/emails", emailsObject, callback);
 		}
 
 	};
@@ -11744,8 +11746,6 @@ var EmailSubmitList = function EmailSubmitList(props) {
 	    handleTextInput = props.handleTextInput,
 	    emailSubmitData = props.emailSubmitData;
 
-
-	console.log(props);
 
 	var array = [0, 1, 2, 3, 4];
 
@@ -12023,29 +12023,49 @@ var API_ROOT = exports.API_ROOT = "http://locahost:3000";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var AJAX = {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function prepXHR(cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", function (event) {
+    var response = event.target.response;
+    cb(response);
+  });
+  return xhr;
+}
+
+function objectToParams(object) {
+  var paramsString = "";
+  var i = 0;
+  for (var key in object) {
+
+    var value = object[key];
+
+    if ((typeof value === "undefined" ? "undefined" : _typeof(value)) === 'object') value = JSON.stringify(value);
+
+    if (i > 0) paramsString += "&" + key + "=" + value;else {
+      paramsString += key + "=" + value;
+      i++;
+    }
+  }
+  return paramsString;
+}
+
+exports.default = {
   get: function get(url, successCallback) {
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("load", function (event) {
-      var response = event.target.response;
-      successCallback(response);
-    });
+    var xhr = prepXHR(successCallback);
     xhr.open("GET", url);
     xhr.send();
   },
-  post: function post(successCallback) {
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("load", function (event) {
-      response = event.target.response;
-      successCallback(response);
-    });
+  post: function post(url, body, successCallback) {
+    var xhr = prepXHR(successCallback);
     xhr.open("POST", url);
-    xhr.send();
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var paramsString = objectToParams(body);
+    xhr.send(paramsString);
   }
-
 };
-
-exports.default = AJAX;
 
 /***/ }),
 /* 120 */
@@ -12169,7 +12189,7 @@ var header = function header(state, action) {
 
 var email = function email(state, action) {
 
-	console.log(state);
+	console.log(action);
 
 	switch (action.type) {
 
@@ -12188,6 +12208,9 @@ var email = function email(state, action) {
 
 		case "EMAIL_TAB_CHANGE":
 			return squish(state, { tabSelected: action.value });
+
+		case "API_RESPONSE.SUBMIT_EMAILS":
+			return squish(state, {});
 
 		default:
 			return squish(state, {});

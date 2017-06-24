@@ -1,7 +1,7 @@
 import Redux from 'redux';
 import { connect } from 'react-redux'; 
 import Email from './email.js';
-import { get } from '../../action/api.js';
+import { get, post } from '../../action/api.js';
 import { API_ROOT } from '../../constants/constants.js';
 
 const mapStateToProps = (state) => {
@@ -49,12 +49,9 @@ const mapDispatchToProps = (dispatch) => {
 				dispatch({type:"API_RESPONSE.SUBMIT_EMAILS",value:response});
 			}
 
-			//dispatch({type:"API_REQUEST.SUBMIT_EMAILS",value:emailsObject});
+			//callback("dude");
 
-			// TODO - THIS MUST ALSO BE URL ENCODED
-			const data = + JSON.stringify(emailsObject);
-
-			get(API_ROOT + "/emails/" + data,callback);
+			post(API_ROOT + "/emails",emailsObject,callback);
 		}
 
 	}

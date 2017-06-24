@@ -91,8 +91,6 @@ const EmailSubmitList = (props) => {
 	const { coverLetters, handleRadioCheck, handleTextInput,
 		emailSubmitData } = props;
 
-	console.log(props);
-
 	const array = [0,1,2,3,4];
 
 	return (
