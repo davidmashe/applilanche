@@ -1,7 +1,7 @@
 import Redux from 'redux';
 import { connect } from 'react-redux'; 
 import Email from './email.js';
-import { get, post } from '../../action/api.js';
+import AJAX from '../../lib/ajax.js';
 import { API_ROOT } from '../../constants/constants.js';
 
 const mapStateToProps = (state) => {
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
 
 			//callback("dude");
 
-			post(API_ROOT + "/emails",emailsObject,callback);
+			AJAX.post(API_ROOT + "/emails",emailsObject,callback);
 		},
 
 		testGet : () => {
@@ -62,7 +62,7 @@ const mapDispatchToProps = (dispatch) => {
 				console.log(response);
 			}
 
-			get(API_ROOT + "/test",callback);
+			AJAX.get(API_ROOT + "/test",callback);
 		}
 
 	}
