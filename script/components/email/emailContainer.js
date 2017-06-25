@@ -45,6 +45,8 @@ const mapDispatchToProps = (dispatch) => {
 
 		submitEmailsToAPI : (emailsObject) => {
 
+			console.log(JSON.stringify(emailsObject));
+
 			const callback = (response) => {
 				dispatch({type:"API_RESPONSE.SUBMIT_EMAILS",value:response});
 			}
@@ -52,6 +54,15 @@ const mapDispatchToProps = (dispatch) => {
 			//callback("dude");
 
 			post(API_ROOT + "/emails",emailsObject,callback);
+		},
+
+		testGet : () => {
+
+			const callback = (response) => {
+				console.log(response);
+			}
+
+			get(API_ROOT + "/test",callback);
 		}
 
 	}

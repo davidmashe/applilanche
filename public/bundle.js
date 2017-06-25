@@ -11448,7 +11448,8 @@ var Email = function (_React$Component) {
 			    emailSubmitData = _props.emailSubmitData,
 			    tabSelected = _props.tabSelected,
 			    emailTabChange = _props.emailTabChange,
-			    submitEmailsToAPI = _props.submitEmailsToAPI;
+			    submitEmailsToAPI = _props.submitEmailsToAPI,
+			    testGet = _props.testGet;
 
 
 			return _react2.default.createElement(
@@ -11494,6 +11495,15 @@ var Email = function (_React$Component) {
 							}
 						},
 						'Apply'
+					),
+					_react2.default.createElement(
+						'button',
+						{
+							onClick: function onClick() {
+								testGet();
+							}
+						},
+						'Test'
 					),
 					_react2.default.createElement(_emailSubmitList2.default, {
 						coverLetters: this.props.coverLetters,
@@ -11602,6 +11612,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 		submitEmailsToAPI: function submitEmailsToAPI(emailsObject) {
 
+			console.log(JSON.stringify(emailsObject));
+
 			var callback = function callback(response) {
 				dispatch({ type: "API_RESPONSE.SUBMIT_EMAILS", value: response });
 			};
@@ -11609,6 +11621,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 			//callback("dude");
 
 			(0, _api.post)(_constants.API_ROOT + "/emails", emailsObject, callback);
+		},
+
+		testGet: function testGet() {
+
+			var callback = function callback(response) {
+				console.log(response);
+			};
+
+			(0, _api.get)(_constants.API_ROOT + "/test", callback);
 		}
 
 	};
@@ -12063,6 +12084,7 @@ exports.default = {
     xhr.open("POST", url);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var paramsString = objectToParams(body);
+    console.log("post body:", paramsString);
     xhr.send(paramsString);
   }
 };

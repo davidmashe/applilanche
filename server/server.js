@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 const bodyParser = require('body-parser');
+const createController = require('./controller/controller.js');
 
 const PORT = 3000;
 const USE_POSTGRES = (process.env.STORE_LOCAL === 'true') ? false : true;
@@ -12,13 +13,8 @@ if (USE_POSTGRES) {
 	// make db connection here
 }
 
-const createController = require('./controller/controller.js');
-
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-
 
 createController(app,db);
 

@@ -37,6 +37,7 @@ export default {
     xhr.open("POST",url);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     var paramsString = objectToParams(body);
+    console.log("post body:",paramsString);
     xhr.send(paramsString);
   }
 };

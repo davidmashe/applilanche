@@ -11,7 +11,8 @@ class Email extends React.Component {
 	render() {
 
 		const { handleTextInput, handleRadioCheck, emailSubmitData, 
-			tabSelected, emailTabChange, submitEmailsToAPI } = this.props;
+			tabSelected, emailTabChange, submitEmailsToAPI, testGet 
+			} = this.props;
 
 		return (
 			<div>
@@ -36,6 +37,11 @@ class Email extends React.Component {
 						onClick={() => { submitEmailsToAPI(emailSubmitData) }} 
 					>
 						Apply
+					</button>
+					<button 
+						onClick={() => { testGet() }} 
+					>
+						Test
 					</button>
 					<EmailSubmitList 
 						coverLetters={this.props.coverLetters}
