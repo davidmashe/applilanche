@@ -9,7 +9,7 @@ const createController = (app,db) => {
 	});
 
 	// end point to support Google OAuth flow
-	app.get("oauthcallback",(req,res) => {
+	app.get("/oauthcallback",(req,res) => {
 		console.log("req.query:",req.query);
 
 		// get req.query.code
@@ -18,6 +18,12 @@ const createController = (app,db) => {
 
 		// render index.html and start the app!
 		res.sendFile("main.html");
+	});
+
+	app.get("/test-send-html",(req,res) => {
+
+		res.sendFile("public/test.html",
+			{root:"/home/david/applilanche"});
 	});
 
 	app.post("/emails",(req,res) => {
