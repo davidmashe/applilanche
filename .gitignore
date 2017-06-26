@@ -2,3 +2,4 @@ node_modules/
 cover_letter/
 resume/
 public/bundle.js
+client_id.json
