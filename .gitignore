@@ -3,4 +3,6 @@ cover_letter/
 resume/
 public/bundle.js
 client_id.json
+client_secret.json
 .credentials/
+hidey_hole
