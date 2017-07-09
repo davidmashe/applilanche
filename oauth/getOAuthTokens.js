@@ -45,8 +45,9 @@ const CLIENT_SECRET_KEY = oAuthPackage.CLIENT_SECRET_KEY;
 const CLIENT_SECRET_FILE_NAME = oAuthPackage.CLIENT_SECRET_FILE_NAME;
 
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + 'applilanche/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
+    process.env.USERPROFILE) + '/applilanche/.credentials/';
+//var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
+var TOKEN_PATH = TOKEN_DIR + 'gmail-auth.json';
 
 // Load client secrets from a local file.
 fs.readFile(CLIENT_SECRET_FILE_NAME, function processClientSecrets(err, content) {
@@ -80,6 +81,10 @@ function authorize(credentials, callback) {
     if (err) {
       getNewToken(oauth2Client, callback);
     } else {
+      // check for credentials TIMESTAMP using moment.js
+      // if the credentials are out-dated, delete the file gmail-auth.json
+      // and call getNewToken(oauth2Client, callback)
+
       oauth2Client.credentials = JSON.parse(token);
       callback(oauth2Client);
     }

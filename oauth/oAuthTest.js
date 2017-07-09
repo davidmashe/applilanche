@@ -24,8 +24,8 @@ const makeEmail = require('./oAuthUtility.js');
 const request = require('request');
 
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + 'applilanche/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
+    process.env.USERPROFILE) + '/applilanche/.credentials/';
+var TOKEN_PATH = TOKEN_DIR + 'gmail-auth.json';
 
 // Load client secrets from a local file.
 fs.readFile(CLIENT_SECRET_FILE_NAME, function processClientSecrets(err, content) {
@@ -192,8 +192,8 @@ function sendEmail(auth) {
   console.log(JSON.stringify(auth));
 
   var fromEmail = "davidmashe@gmail.com";
-  // var toEmail = "davidmashe@gmail.com";
-  var toEmail = "dashe@proclivitysystems.com";
+  var toEmail = "davidmashe@gmail.com";
+  //var toEmail = "dashe@proclivitysystems.com";
   var subject = "from eve";
   var message = "HENLO! (rickroll)";
 
@@ -201,40 +201,40 @@ function sendEmail(auth) {
 
   var raw = makeEmail(toEmail,fromEmail,subject,message);
 
-  // gmail.users.messages.send({
-  //   auth: auth,
-  //   userId: 'me',
-  //   resource: {
-  //       raw: raw
-  //   }
-  // }, function(err, response) {
-  //   if (err) {
-  //     console.log("error in callback:");
-  //     console.log(err);
-  //   } else {
-  //     console.log("response:");
-  //     console.log(response);
-  //   }
-  // });
+  gmail.users.messages.send({
+    auth: auth,
+    userId: 'me',
+    resource: {
+        raw: raw
+    }
+  }, function(err, response) {
+    if (err) {
+      console.log("error in callback:");
+      console.log(err);
+    } else {
+      console.log("response:");
+      console.log(response);
+    }
+  });
 
-  const token = auth.credentials.access_token;  
+  // const token = auth.credentials.access_token;  
 
-  request({
-      method: "POST",
-      uri: "https://www.googleapis.com/gmail/v1/users/me/messages/send",
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        "raw": raw
-      })
-    },
-    function(err, response, body) {
-      if(err){
-        console.log(err); // Failure
-      } else {
-        console.log(body); // Success!
-      }
-    });    
+  // request({
+  //     method: "POST",
+  //     uri: "https://www.googleapis.com/gmail/v1/users/me/messages/send",
+  //     headers: {
+  //       "Authorization": "Bearer " + token,
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       "raw": raw
+  //     })
+  //   },
+  //   function(err, response, body) {
+  //     if(err){
+  //       console.log(err); // Failure
+  //     } else {
+  //       console.log(body); // Success!
+  //     }
+  //   });    
 }
