@@ -24,7 +24,7 @@ const makeEmail = require('./oAuthUtility.js');
 const request = require('request');
 
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/';
+    process.env.USERPROFILE) + 'applilanche/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
 
 // Load client secrets from a local file.

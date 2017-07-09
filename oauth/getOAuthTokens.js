@@ -45,7 +45,7 @@ const CLIENT_SECRET_KEY = oAuthPackage.CLIENT_SECRET_KEY;
 const CLIENT_SECRET_FILE_NAME = oAuthPackage.CLIENT_SECRET_FILE_NAME;
 
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/';
+    process.env.USERPROFILE) + 'applilanche/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
 
 // Load client secrets from a local file.
