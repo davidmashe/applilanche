@@ -21,6 +21,7 @@ const CLIENT_SECRET_KEY = oAuthPackage.CLIENT_SECRET_KEY;
 const CLIENT_SECRET_FILE_NAME = oAuthPackage.CLIENT_SECRET_FILE_NAME;
 
 const makeEmail = require('./oAuthUtility.js');
+const request = require('request');
 
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
@@ -190,26 +191,50 @@ function sendEmail(auth) {
   console.log(auth);
   console.log(JSON.stringify(auth));
 
-  var email = "davidmashe@gmail.com";
-  var subject = "from node";
-  var message = "it worked!";
+  var fromEmail = "davidmashe@gmail.com";
+  // var toEmail = "davidmashe@gmail.com";
+  var toEmail = "dashe@proclivitysystems.com";
+  var subject = "from eve";
+  var message = "HENLO! (rickroll)";
 
   var gmail = google.gmail('v1');
 
-  var raw = makeEmail(email,email,subject,message);
-    gmail.users.messages.send({
-        auth: auth,
-        userId: 'me',
-        resource: {
-            raw: raw
-        }
-    }, function(err, response) {
-      if (err) {
-        console.log("error in callback:");
-        console.log(err);
+  var raw = makeEmail(toEmail,fromEmail,subject,message);
+
+  // gmail.users.messages.send({
+  //   auth: auth,
+  //   userId: 'me',
+  //   resource: {
+  //       raw: raw
+  //   }
+  // }, function(err, response) {
+  //   if (err) {
+  //     console.log("error in callback:");
+  //     console.log(err);
+  //   } else {
+  //     console.log("response:");
+  //     console.log(response);
+  //   }
+  // });
+
+  const token = auth.credentials.access_token;  
+
+  request({
+      method: "POST",
+      uri: "https://www.googleapis.com/gmail/v1/users/me/messages/send",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "raw": raw
+      })
+    },
+    function(err, response, body) {
+      if(err){
+        console.log(err); // Failure
       } else {
-        console.log("response:");
-        console.log(response);
+        console.log(body); // Success!
       }
-    });
+    });    
 }
