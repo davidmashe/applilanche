@@ -20,6 +20,8 @@ const SCOPES = oAuthPackage.SCOPES;
 const CLIENT_SECRET_KEY = oAuthPackage.CLIENT_SECRET_KEY;
 const CLIENT_SECRET_FILE_NAME = oAuthPackage.CLIENT_SECRET_FILE_NAME;
 
+const makeEmail = require('./oAuthUtility.js');
+
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
@@ -34,7 +36,8 @@ fs.readFile(CLIENT_SECRET_FILE_NAME, function processClientSecrets(err, content)
   }
   // Authorize a client with the loaded credentials, then call the
   // Gmail API.
-  authorize(JSON.parse(content), listMessages);
+  //authorize(JSON.parse(content), listMessages);
+  authorize(JSON.parse(content), sendEmail);
 });
 
 /**
@@ -180,4 +183,33 @@ function listMessages(auth) {
       console.log(res);
     });
   });  
+}
+
+function sendEmail(auth) {
+
+  console.log(auth);
+  console.log(JSON.stringify(auth));
+
+  var email = "davidmashe@gmail.com";
+  var subject = "from node";
+  var message = "it worked!";
+
+  var gmail = google.gmail('v1');
+
+  var raw = makeEmail(email,email,subject,message);
+    gmail.users.messages.send({
+        auth: auth,
+        userId: 'me',
+        resource: {
+            raw: raw
+        }
+    }, function(err, response) {
+      if (err) {
+        console.log("error in callback:");
+        console.log(err);
+      } else {
+        console.log("response:");
+        console.log(response);
+      }
+    });
 }
