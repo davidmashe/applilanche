@@ -2,36 +2,13 @@ const queries = require('../sql/queries.js');
 
 const createController = (app,client) => {
 
-	console.log("using queries object:");
-	console.log(queries);
-
-	const fireQuery = (query,callback) => {
-		console.log("firing query");
-		var query = client.query(query);
-		query.on("row", (row, result) => {
-			console.log("got a row",row); 
-			result.addRow(row); 
-		});
-		query.on("end", (result) => { 
-			console.log("inside 'end', result:",result);
-			callback(result.rows); 
-		});	
-	}
-
-	app.get("/test",(req,res) => {
-		res.send("/test working");
-	});
-
 	app.get("/app_records/all",(req,res) => {
 		console.log(queries.getAllApplicationRecords);
-		//fireQuery(queries.getAllApplicationRecords,res.send);
 		var query = client.query(queries.getAllApplicationRecords);
-		query.on("row", (row, result) => {
-			console.log("got a row",row); 
+		query.on("row", (row, result) => { 
 			result.addRow(row); 
 		});
 		query.on("end", (result) => { 
-			console.log("inside 'end', result:",result);
 			res.send(result.rows); 
 		});	
 	});
