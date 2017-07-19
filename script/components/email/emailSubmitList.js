@@ -51,7 +51,7 @@ class EmailSubmit extends React.Component {
 			<div className="email-submit-box">
 				<input 
 					type="text" 
-					placeholder="email"
+					placeholder="email (required)"
 					onChange={
 						(event) => {
 							handleType(index, 0, event.target.value)
@@ -61,7 +61,7 @@ class EmailSubmit extends React.Component {
 				/>
 				<input 
 					type="text" 
-					placeholder="company or opportunity"
+					placeholder="company or opportunity (required)"
 					onChange={
 						(event) => {
 							handleType(index, 1, event.target.value)
@@ -69,16 +69,26 @@ class EmailSubmit extends React.Component {
 					}
 					value={data[1]}
 				/>
-				{this.getRadioButtons()}
 				<input 
 					type="text" 
-					placeholder="notes (optional)"
+					placeholder="job title (required)"
 					onChange={
 						(event) => {
 							handleType(index, 2, event.target.value)
 						}
 					}
 					value={data[2]}
+				/>				
+				{this.getRadioButtons()}
+				<input 
+					type="text" 
+					placeholder="notes (optional)"
+					onChange={
+						(event) => {
+							handleType(index, 3, event.target.value)
+						}
+					}
+					value={data[3]}
 				/>
 			</div>
 		);

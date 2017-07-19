@@ -21,7 +21,7 @@ const header = (state,action) => {
 
 const email = (state,action) => {
 
-	console.log(action);
+	//console.log(action);
 
 	switch (action.type) {
 
@@ -30,8 +30,8 @@ const email = (state,action) => {
 			const index = action.value.index;
 			const subIndex = action.value.subIndex;
 
-			const emailSubmitDataCopy = state.emailSubmitData.filter(() => {
-				return true });
+			const emailSubmitDataCopy = 
+				state.emailSubmitData.filter(() => {return true});
 
 			emailSubmitDataCopy[index][subIndex] = action.value.value;
 

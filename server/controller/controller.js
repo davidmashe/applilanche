@@ -3,7 +3,6 @@ const queries = require('../sql/queries.js');
 const createController = (app,client) => {
 
 	app.get("/app_records/all",(req,res) => {
-		console.log(queries.getAllApplicationRecords);
 		var query = client.query(queries.getAllApplicationRecords);
 		query.on("row", (row, result) => { 
 			result.addRow(row); 
@@ -31,9 +30,56 @@ const createController = (app,client) => {
 			{root:"/home/david/applilanche"});
 	});
 
-	app.post("/emails",(req,res) => {
+	app.post("/emails/submit",(req,res) => {
 		console.log("received request at /emails");
-		console.log("body is:",JSON.stringify(req.body));
+		console.log("body is:",req.body);
+		console.log("body string is:",JSON.stringify(req.body));
+
+		const newDataArray = [];
+
+		const keys = Object.keys(req.body);
+
+		keys.map((key) => {
+			var intKey;
+			try {
+				intKey = parseInt(key);
+			} catch (e) {
+				return undefined;
+			}
+			newDataArray[intKey] = JSON.parse(req.body[key]);	
+		});
+
+		if (!newDataArray) {
+			res.send({status:"error"});
+			return;
+		}
+
+		for (var i = 0; i < newDataArray.length; i++) {
+
+			if (!newDataArray) {
+				res.send({status:"error"});
+				return;
+			}
+
+			
+			const email = newDataArray[0];
+			const entity = newDataArray[1];
+			const position = newDataArray[2];
+			const coverLetter = newDataArray[3];
+			const note = (newDataArray.length > 4) ? newDataArray[4] : '';
+
+			const insertQuery = queries.getAllDestinationEmails(
+				position,email,entity,coverLetter,note));
+
+			var query = client.query(insertQuery);
+			query.on("row", (row, result) => { 
+				result.addRow(row); 
+			});
+			query.on("end", (result) => { 
+				res.send(result.rows); 
+			});
+
+		}
 
 		res.send("you sent: " + JSON.stringify(req.body));
 	});
