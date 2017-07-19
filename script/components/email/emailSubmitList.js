@@ -32,7 +32,7 @@ class EmailSubmit extends React.Component {
 										this.props.handleRadioCheck(i,element);
 									}
 								}
-								checked={this.props.data.radio === element}
+								checked={this.props.data[3] === element}
 							/>
 						</span>	
 					)
@@ -46,6 +46,8 @@ class EmailSubmit extends React.Component {
 		const { coverLetterTypes, index, data } = this.props;
 
 		const handleType = this.props.handleTextInput;
+
+		console.log(data);
 
 		return (
 			<div className="email-submit-box">
@@ -85,10 +87,10 @@ class EmailSubmit extends React.Component {
 					placeholder="notes (optional)"
 					onChange={
 						(event) => {
-							handleType(index, 3, event.target.value)
+							handleType(index, 4, event.target.value)
 						}
 					}
-					value={data[3]}
+					value={data[4]}
 				/>
 			</div>
 		);
@@ -102,6 +104,8 @@ const EmailSubmitList = (props) => {
 		emailSubmitData } = props;
 
 	const array = [0,1,2,3,4];
+
+	//console.log(emailSubmitData);
 
 	return (
 		<div>

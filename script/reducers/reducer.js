@@ -21,7 +21,7 @@ const header = (state,action) => {
 
 const email = (state,action) => {
 
-	//console.log(action);
+	console.log(action);
 
 	switch (action.type) {
 

@@ -11462,8 +11462,6 @@ var Email = function (_React$Component) {
 						{
 							onClick: function onClick() {
 								var filtered = (0, _util.filterEmailsObject)(emailSubmitData);
-								console.log("filtered:");
-								console.log(filtered);
 								submitEmailsToAPI(filtered);
 							}
 						},
@@ -11578,7 +11576,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		handleRadioCheck: function handleRadioCheck(index, value) {
 			var actionValue = {
 				index: index,
-				subIndex: 4,
+				subIndex: 3,
 				value: value
 			};
 			dispatch({ type: "UPDATE_EMAIL_VALUE", value: actionValue });
@@ -11588,7 +11586,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 			dispatch({ type: "EMAIL_TAB_CHANGE", value: value });
 		},
 
-		submitEmailsToAPI: function submitEmailsToAPI(emailsObject) {
+		submitEmailsToAPI: function submitEmailsToAPI(emailsArray) {
 
 			//console.log(JSON.stringify(emailsObject));
 
@@ -11598,7 +11596,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 			//callback("dude");
 
-			_ajax2.default.post(_constants.API_ROOT + "/emails/submit", emailsObject, callback);
+			_ajax2.default.post(_constants.API_ROOT + "/emails/submit", emailsArray, callback);
 		},
 
 		testGet: function testGet() {
@@ -11687,7 +11685,7 @@ var EmailSubmit = function (_React$Component) {
 								var i = _this2.props.index;
 								_this2.props.handleRadioCheck(i, element);
 							},
-							checked: _this2.props.data.radio === element
+							checked: _this2.props.data[3] === element
 						})
 					);
 				})
@@ -11703,6 +11701,8 @@ var EmailSubmit = function (_React$Component) {
 
 
 			var handleType = this.props.handleTextInput;
+
+			console.log(data);
 
 			return _react2.default.createElement(
 				"div",
@@ -11736,9 +11736,9 @@ var EmailSubmit = function (_React$Component) {
 					type: "text",
 					placeholder: "notes (optional)",
 					onChange: function onChange(event) {
-						handleType(index, 3, event.target.value);
+						handleType(index, 4, event.target.value);
 					},
-					value: data[3]
+					value: data[4]
 				})
 			);
 		}
@@ -11755,6 +11755,8 @@ var EmailSubmitList = function EmailSubmitList(props) {
 
 
 	var array = [0, 1, 2, 3, 4];
+
+	//console.log(emailSubmitData);
 
 	return _react2.default.createElement(
 		"div",
@@ -12220,7 +12222,7 @@ var header = function header(state, action) {
 
 var email = function email(state, action) {
 
-	//console.log(action);
+	console.log(action);
 
 	switch (action.type) {
 

@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 		handleRadioCheck : (index,value) => {
 			const actionValue = {
 				index,
-				subIndex:4,
+				subIndex:3,
 				value
 			}
 			dispatch({type:"UPDATE_EMAIL_VALUE",value:actionValue});
