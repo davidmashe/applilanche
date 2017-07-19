@@ -62,6 +62,14 @@ const createController = (app,client) => {
 
 		console.log(position,email,entity,coverLetter,note);
 
+		try {
+			// send email here
+			console.log("*** send email goes here ***");
+		} catch (e) {
+			res.send({errorMessage:e});
+			return;	
+		}
+
 		const insertQuery = queries.insertApplication(
 			position,email,entity,coverLetter,note);
 
