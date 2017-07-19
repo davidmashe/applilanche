@@ -20,6 +20,7 @@ class EmailSubmit extends React.Component {
 				<label value="cover letter:">cover letter -></label>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				{this.props.coverLetters.map((element,index) => {
+
 					return (
 						<span>
 							<label value={element}>{element}</label>
@@ -109,7 +110,12 @@ const EmailSubmitList = (props) => {
 
 	return (
 		<div>
-			{array.map((element) => {
+			{array.map((element,index) => {
+
+				if (index > 0) { // submit one email at a time, for now
+					return '';
+				}
+
 				return (
 					<EmailSubmit 
 						key={"email-submit-" + element}

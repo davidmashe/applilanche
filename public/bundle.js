@@ -11670,6 +11670,7 @@ var EmailSubmit = function (_React$Component) {
 				),
 				"\xA0\xA0\xA0\xA0",
 				this.props.coverLetters.map(function (element, index) {
+
 					return _react2.default.createElement(
 						"span",
 						null,
@@ -11761,7 +11762,13 @@ var EmailSubmitList = function EmailSubmitList(props) {
 	return _react2.default.createElement(
 		"div",
 		null,
-		array.map(function (element) {
+		array.map(function (element, index) {
+
+			if (index > 0) {
+				// submit one email at a time, for now
+				return '';
+			}
+
 			return _react2.default.createElement(EmailSubmit, {
 				key: "email-submit-" + element,
 				id: "email-submit-" + element,
