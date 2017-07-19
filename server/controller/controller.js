@@ -60,8 +60,12 @@ const createController = (app,client) => {
 		const coverLetter = newDataArray[0][3];
 		const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
 
-		const insertQuery = queries.getAllDestinationEmails(
-			position,email,entity,coverLetter,note));
+		console.log(position,email,entity,coverLetter,note);
+
+		const insertQuery = queries.insertApplication(
+			position,email,entity,coverLetter,note);
+
+		console.log(insertQuery);
 
 		var query = client.query(insertQuery);
 		query.on("row", (row, result) => { 
