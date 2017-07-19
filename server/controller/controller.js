@@ -54,34 +54,22 @@ const createController = (app,client) => {
 			return;
 		}
 
-		for (var i = 0; i < newDataArray.length; i++) {
+		const email = newDataArray[0][0];
+		const entity = newDataArray[0][1];
+		const position = newDataArray[0][2];
+		const coverLetter = newDataArray[0][3];
+		const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
 
-			if (!newDataArray) {
-				res.send({status:"error"});
-				return;
-			}
+		const insertQuery = queries.getAllDestinationEmails(
+			position,email,entity,coverLetter,note));
 
-			
-			const email = newDataArray[0];
-			const entity = newDataArray[1];
-			const position = newDataArray[2];
-			const coverLetter = newDataArray[3];
-			const note = (newDataArray.length > 4) ? newDataArray[4] : '';
-
-			const insertQuery = queries.getAllDestinationEmails(
-				position,email,entity,coverLetter,note));
-
-			var query = client.query(insertQuery);
-			query.on("row", (row, result) => { 
-				result.addRow(row); 
-			});
-			query.on("end", (result) => { 
-				res.send(result.rows); 
-			});
-
-		}
-
-		res.send("you sent: " + JSON.stringify(req.body));
+		var query = client.query(insertQuery);
+		query.on("row", (row, result) => { 
+			result.addRow(row); 
+		});
+		query.on("end", (result) => { 
+			res.send(result.rows); 
+		});
 	});
 }
 
