@@ -104,17 +104,15 @@ const EmailSubmitList = (props) => {
 	const { coverLetters, handleRadioCheck, handleTextInput,
 		emailSubmitData } = props;
 
-	const array = [0,1,2,3,4];
+	//const array = [0,1,2,3,4];
+	// submit one email at a time, for now
+	const array = [0]
 
 	//console.log(emailSubmitData);
 
 	return (
 		<div>
-			{array.map((element,index) => {
-
-				if (index > 0) { // submit one email at a time, for now
-					return '';
-				}
+			{array.map((element) => {
 
 				return (
 					<EmailSubmit 

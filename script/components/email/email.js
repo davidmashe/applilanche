@@ -61,7 +61,9 @@ class Email extends React.Component {
 				{ (tabSelected === "upload") ?
 					<div>
 					<h1>Upload CSV</h1>
-					<button>Choose File</button>
+					<button onClick={() => alert("coming soon!")}>
+						Choose File
+					</button>
 					<EmailUpload 
 						coverLetters={this.props.coverLetters}
 						handleTextInput={handleTextInput}
