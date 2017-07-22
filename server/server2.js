@@ -63,7 +63,7 @@ if (USE_OAUTH) {
 app.use(express.static('public')); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-createController(app,client);
+createController(app,client,USE_POSTGRES,USE_OAUTH);
 
 app.get("/oauthcallback",(req,res) => {
 

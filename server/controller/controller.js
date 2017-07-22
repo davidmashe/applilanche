@@ -1,8 +1,14 @@
 const queries = require('../sql/queries.js');
 
-const createController = (app,client) => {
+const createController = (app,client,USE_POSTGRES,USE_OAUTH) => {
 
 	app.get("/app_records/all",(req,res) => {
+
+		if (!USE_POSTGRES) {
+			const errorMessage = {error:"postgres not connected"};
+			res.send(JSON.stringify(errorMessage));
+			return;
+		}
 
 		var query = client.query(queries.getAllApplicationRecords());
 		query.on("row", (row, result) => { 
@@ -22,6 +28,13 @@ const createController = (app,client) => {
 	});
 
 	app.post("/emails/submit",(req,res) => {
+
+		if (!USE_POSTGRES) {
+			const errorMessage = {error:"postgres not connected"};
+			res.send(JSON.stringify(errorMessage));
+			return;
+		}
+
 		console.log("received request at /emails");
 		console.log("body is:",req.body);
 		console.log("body string is:",JSON.stringify(req.body));
