@@ -26,6 +26,6 @@ DEVELOPMENT ROADMAP:
 
 -Get Python webscrapers built
 
--Turn webscraper into automated kron job
+-Turn webscraper into automated cron job
 
 -Make UI less of an eyesore
