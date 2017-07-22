@@ -54,7 +54,7 @@ if (USE_OAUTH) {
     }
   // Authorize a client with the loaded credentials, then call the
   // Gmail API.
-    authorize(JSON.parse(content), receiveBearerToken);
+    authorize(JSON.parse(content), handleGoodAuth);
   }); 
 }
 
@@ -136,8 +136,7 @@ function storeToken(token) {
   console.log('Token stored to ' + TOKEN_PATH);
 }
 
-function receiveBearerToken(auth) {
-	console.log("token received from google");	
+function handleGoodAuth(auth) {
 	authObject = auth;
 	authURL = '';
 
