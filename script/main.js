@@ -5,6 +5,10 @@ import Scraper from './components/scraper/scraperContainer.js';
 
 class Main extends React.Component {
 
+	componentWillMount() {
+		this.props.getAuth();
+	}
+
 	constructor(props){
 		super(props);
 

@@ -54,7 +54,24 @@ const scraper = (state,action) => {
 }
 
 const appData = (state,action) => {
-	return squish(state,{});
+
+	switch(action.type) {
+		case "RECEIVE_AUTH": 
+			const auth = (action.payload) 
+				? JSON.parse(action.payload) 
+					: {url:null};
+			console.log(auth);
+
+			if (auth.url) {
+				console.log("BREH!");
+				window.location.href = auth.url;
+			} else { 
+				return squish(state,{auth:null});
+			}	
+			
+		default:
+			return squish(state,{});
+	}
 }
 
 const combinedReducer = combineReducers({

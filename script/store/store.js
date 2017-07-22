@@ -14,7 +14,8 @@ const DEFAULT_STATE = {
 		tabSelected : ""
 	},
 	appData:{
-		coverLetters:["default","snarky"]
+		coverLetters:["default","snarky"],
+		auth:null
 	}
 
 };

@@ -1,6 +1,7 @@
 import Redux from 'redux';
 import { connect } from 'react-redux'; 
 import Main from './main.js';
+import AJAX from './lib/ajax.js';
 
 const mapStateToProps = (state) => {
 
@@ -19,8 +20,16 @@ const mapDispatchToProps = (dispatch) => {
 
 		handleHeaderTabChange : (target) => {
 			dispatch({type:"HEADER_TAB_CHANGE", value:target});
-		}
+		},
 
+		getAuth : () => {
+
+			const callback = (res) => {
+				dispatch({type:"RECEIVE_AUTH",payload:res});
+			};
+
+			AJAX.get("/auth_url",callback);
+		}	
 	}
 }
 

@@ -3,7 +3,8 @@ const queries = require('../sql/queries.js');
 const createController = (app,client) => {
 
 	app.get("/app_records/all",(req,res) => {
-		var query = client.query(queries.getAllApplicationRecords);
+
+		var query = client.query(queries.getAllApplicationRecords());
 		query.on("row", (row, result) => { 
 			result.addRow(row); 
 		});
@@ -13,16 +14,6 @@ const createController = (app,client) => {
 	});
 
 	// end point to support Google OAuth flow
-	app.get("/oauthcallback",(req,res) => {
-		console.log("req.query:",req.query);
-
-		// get req.query.code
-
-		//do some OAuth shit with code (probably store token)
-
-		// render index.html and start the app!
-		res.sendFile("main.html");
-	});
 
 	app.get("/test-send-html",(req,res) => {
 
