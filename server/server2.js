@@ -1,19 +1,29 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const pg = require("pg");
 const conString = require('./sql/connectionString.js');
-const client = new pg.Client(conString);
 const createController = require('./controller/controller.js');
 const fs = require('fs');
-const google = require('googleapis');
-const googleAuth = require('google-auth-library');
-const ROOT_DIR = {root:"/home/david/applilanche"};
-const PORT = process.env.PORT || 3000;
 const path = require("path");
 const queries = require('./sql/queries.js');
+const env = require('../env.js');
+const google = require('googleapis');
+const googleAuth = require('google-auth-library');
 
-//console.log("pwd:",__dirname);
+console.log("USING OAUTH:",USE_OAUTH);
+console.log("USING POSTGRES:",USE_POSTGRES);
+
+const pg = require("pg");
+var client = new pg.Client(conString);
+
+if (USE_POSTGRES) {
+  client.connect();
+}
+
+const ROOT_DIR = {root:"/home/david/applilanche"};
+const PORT = process.env.PORT || 3000;
+const USE_POSTGRES = (env.USE_POSTGRES === "true" || env.USE_POSTGRES === true);
+const USE_OAUTH = (env.USE_OAUTH === "true" || env.USE_OAUTH === true);
 
 // BEGIN OAUTH CODE
 
@@ -33,42 +43,41 @@ var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
 //var TOKEN_PATH = TOKEN_DIR + 'gmail-nodejs-quickstart.json';
 var TOKEN_PATH = TOKEN_DIR + 'gmail-auth.json';
 
-fs.readFile(CLIENT_SECRET_FILE_NAME, function processClientSecrets(err, content) {
-  if (err) {
-    console.log('Error loading client secret file: ' + err);
-    console.log('You will need to have signed up for a GMAIL API key via google:');
-    console.log('https://developers.google.com/gmail/api/quickstart/nodejs#step_4_run_the_sample');
-    return;
-  }
-  console.log("content of file:",JSON.parse(content));
+if (USE_OAUTH) {
+
+  fs.readFile(CLIENT_SECRET_FILE_NAME, function processClientSecrets(err, content) {
+    if (err) {
+      console.log('Error loading client secret file: ' + err);
+      console.log('You will need to have signed up for a GMAIL API key via google:');
+      console.log('https://developers.google.com/gmail/api/quickstart/nodejs#step_4_run_the_sample');
+      return;
+    }
   // Authorize a client with the loaded credentials, then call the
   // Gmail API.
-  authorize(JSON.parse(content), listLabels);
-});
+    authorize(JSON.parse(content), receiveBearerToken);
+  }); 
+}
 
 // END OAUTH CODE
-
-client.connect();
 
 app.use(express.static('public')); 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 createController(app,client);
 
-//client.query(queries.deleteURL());
-
 app.get("/oauthcallback",(req,res) => {
-	console.log("req.query:",req.query);
 
-	// get req.query.code
+  const code = req.query.code;
 
-	var token = req.query.code; //it should be in req.query
-
-	console.log("token:",token);
-
-	storeToken(token);
-	authUrl = '';
-	res.redirect("/");
+  oauth2Client.getToken(code, function(err, token) {
+    if (err) {
+      console.log('Error while trying to retrieve access token', err);
+      return;
+    }
+    oauth2Client.credentials = token;
+    storeToken(token);
+    res.redirect("/");
+  });
 });
 
 app.get("/auth_url",function(req,res) {
@@ -80,15 +89,14 @@ app.listen(PORT,() => {
 	console.log("Applilanche running on",PORT);
 });
 
+
+
 // begin function definitions
 
 function authorize(credentials, callback) {
   var clientSecret = credentials[CLIENT_SECRET_KEY].client_secret;
   var clientId = credentials[CLIENT_SECRET_KEY].client_id;
   var redirectUrl = credentials[CLIENT_SECRET_KEY].redirect_uris[0];
-  console.log("clientSecret",clientSecret);
-  console.log("clientId",clientId);
-  console.log(redirectUrl);
   var auth = new googleAuth();
   oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
@@ -113,24 +121,7 @@ function getNewToken(oauth2Client, callback) {
     access_type: 'offline',
     scope: SCOPES
   });
-  console.log('Authorize this app by visiting this url: ', authUrl);
-
-  // var rl = readline.createInterface({
-  //   input: process.stdin,
-  //   output: process.stdout
-  // });
-  // rl.question('Enter the code from that page here: ', function(code) {
-  //   rl.close();
-  //   oauth2Client.getToken(code, function(err, token) {
-  //     if (err) {
-  //       console.log('Error while trying to retrieve access token', err);
-  //       return;
-  //     }
-  //     oauth2Client.credentials = token;
-  //     storeToken(token);
-  //     callback(oauth2Client);
-  //   });
-  // });
+  console.log('Applilanche will seek OAuth permissions when it loads');
 }
 
 function storeToken(token) {
@@ -146,10 +137,11 @@ function storeToken(token) {
 }
 
 function receiveBearerToken(auth) {
-	console.log("token received from google:");	
-	console.log(auth);
+	console.log("token received from google");	
 	authObject = auth;
 	authURL = '';
+
+  listLabels(auth);
 }
 
 function listLabels(auth) {
