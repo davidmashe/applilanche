@@ -11,7 +11,9 @@ REQUIRED INSTALLS:
 CONDITIONALLY REQUIRED:
 
 -Gmail account & gmail developer key (to apply via email)
+
 -Python (to apply via webscraping - not yet built)
+
 -PostgreSQL (to keep track of where you have applied already)
 
 SETUP INSTRUCTIONS:
