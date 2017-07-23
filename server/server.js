@@ -11,11 +11,17 @@ const google = require('googleapis');
 const googleAuth = require('google-auth-library');
 const oAuthUtility = require('./oauth/oAuthUtility.js');
 const makeEmail = oAuthUtility.makeEmail;
+const coverLetterGenerator 
+  = require('./application_content/coverLetterGenerator.js');
 
 const ROOT_DIR = {root:"/home/david/applilanche"};
 const PORT = process.env.PORT || 3000;
 var USE_POSTGRES = (env.USE_POSTGRES === "true" || env.USE_POSTGRES === true);
 var USE_OAUTH = (env.USE_OAUTH === "true" || env.USE_OAUTH === true);
+const MY_EMAIL = env.MY_EMAIL;
+const WEBPAGE_URL = env.WEBPAGE_URL;
+
+var errorMessage;
 
 const pg = require("pg");
 var client = new pg.Client(conString);
@@ -66,6 +72,12 @@ createController(app,client,USE_POSTGRES,USE_OAUTH);
 
 app.get("/oauthcallback",(req,res) => {
 
+  if (!USE_OAUTH) {
+    errorMessage = {error:"gmail API not connected"};
+    res.send(JSON.stringify(errorMessage));
+    return;
+  }
+
   const code = req.query.code;
 
   oauth2Client.getToken(code, function(err, token) {
@@ -81,6 +93,13 @@ app.get("/oauthcallback",(req,res) => {
 });
 
 app.get("/auth_url",function(req,res) {
+
+  if (!USE_OAUTH) {
+    errorMessage = {error:"gmail API not connected"};
+    res.send(JSON.stringify(errorMessage));
+    return;
+  }
+
 	const response = {url:authUrl};
 	res.send(JSON.stringify(response));
 });
@@ -88,7 +107,13 @@ app.get("/auth_url",function(req,res) {
 app.post("/emails/submit",(req,res) => {
 
   if (!USE_POSTGRES) {
-    const errorMessage = {error:"postgres not connected"};
+    errorMessage = {error:"postgres not connected"};
+    res.send(JSON.stringify(errorMessage));
+    return;
+  }
+
+  if (!USE_OAUTH) {
+    const errorMessage = {error:"gmail API not connected"};
     res.send(JSON.stringify(errorMessage));
     return;
   }
@@ -118,16 +143,24 @@ app.post("/emails/submit",(req,res) => {
   const coverLetter = newDataArray[0][3];
   const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
 
-  //console.log(position,email,entity,coverLetter,note);
+  var subject = `Re: ${position}`;
+  var message = coverLetterGenerator[coverLetter](entity, position,WEBPAGE_URL);
 
-  var fromEmail = "davidmashe@gmail.com";
-  var toEmail = "davidmashe@gmail.com";
-  var subject = "from the cloud";
-  var message = "CLOOOOOUUUUUUD!";
+  // console.log(position,email,entity,coverLetter,note);
+  // console.log("cover letter:");
+  // console.log(message);
 
   var gmail = google.gmail('v1');
 
-  var raw = makeEmail(toEmail,fromEmail,subject,message);
+  var raw = makeEmail(email,MY_EMAIL,subject,message);
+
+  // const emailObject = {};
+  // emailObject.toEmail = email;
+  // emailObject.subject = subject;
+  // emailObject.messages = message;
+  // emailObject.fromEmail = MY_EMAIL;
+
+  // res.send(JSON.stringify(emailObject));
 
   gmail.users.messages.send({
     auth: authObject,
