@@ -7,8 +7,12 @@ To use applilanche, clone this repo and then follow the setup instructions.
 REQUIRED INSTALLS:
 
 -Node.js
--Python
--PostgreSQL
+
+CONDITIONALLY REQUIRED:
+
+-Gmail account & gmail developer key (to apply via email)
+-Python (to apply via webscraping - not yet built)
+-PostgreSQL (to keep track of where you have applied already)
 
 SETUP INSTRUCTIONS:
 
@@ -20,9 +24,11 @@ SETUP INSTRUCTIONS:
 
 -`npm start`
 
-DEVELOPMENT ROADMAP:
+Applilanche automatically looks for Postgres and a gmail OAuth token file.
 
--Get Applilanche working as a local webapp
+To disable these, look at env.js
+
+DEVELOPMENT ROADMAP:
 
 -Get Python webscrapers built
 
