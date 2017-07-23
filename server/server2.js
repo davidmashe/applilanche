@@ -9,21 +9,24 @@ const queries = require('./sql/queries.js');
 const env = require('../env.js');
 const google = require('googleapis');
 const googleAuth = require('google-auth-library');
-
-console.log("USING OAUTH:",USE_OAUTH);
-console.log("USING POSTGRES:",USE_POSTGRES);
+const oAuthUtility = require('./oauth/oAuthUtility.js');
+const makeEmail = oAuthUtility.makeEmail;
 
 const pg = require("pg");
 var client = new pg.Client(conString);
+client.connect();
 
-if (USE_POSTGRES) {
-  client.connect();
-}
+// if (USE_POSTGRES) {
+  
+// }
 
 const ROOT_DIR = {root:"/home/david/applilanche"};
 const PORT = process.env.PORT || 3000;
 const USE_POSTGRES = (env.USE_POSTGRES === "true" || env.USE_POSTGRES === true);
 const USE_OAUTH = (env.USE_OAUTH === "true" || env.USE_OAUTH === true);
+
+console.log("USING OAUTH:",USE_OAUTH);
+console.log("USING POSTGRES:",USE_POSTGRES);
 
 // BEGIN OAUTH CODE
 
@@ -66,6 +69,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 createController(app,client,USE_POSTGRES,USE_OAUTH);
 
 app.get("/oauthcallback",(req,res) => {
+  console.log("OAUTH CALLBACK!");
 
   const code = req.query.code;
 
@@ -76,13 +80,98 @@ app.get("/oauthcallback",(req,res) => {
     }
     oauth2Client.credentials = token;
     storeToken(token);
-    res.redirect("/");
+    //res.redirect("/");
+    res.sendFile(path.resolve("public/oauth_callback.html"))
   });
 });
 
 app.get("/auth_url",function(req,res) {
 	const response = {url:authUrl};
+  console.log("sending this resonse:");
+  console.log(JSON.stringify(response));
 	res.send(JSON.stringify(response));
+});
+
+app.post("/emails/submit",(req,res) => {
+
+  if (!USE_POSTGRES) {
+    const errorMessage = {error:"postgres not connected"};
+    res.send(JSON.stringify(errorMessage));
+    return;
+  }
+
+  console.log("received request at /emails");
+  console.log("body is:",req.body);
+  console.log("body string is:",JSON.stringify(req.body));
+
+  const newDataArray = [];
+
+  const keys = Object.keys(req.body);
+
+  keys.map((key) => {
+    var intKey;
+    try {
+      intKey = parseInt(key);
+    } catch (e) {
+      return undefined;
+    }
+    newDataArray[intKey] = JSON.parse(req.body[key]); 
+  });
+
+  if (!newDataArray) {
+    res.send({status:"error"});
+    return;
+  }
+
+  const email = newDataArray[0][0];
+  const entity = newDataArray[0][1];
+  const position = newDataArray[0][2];
+  const coverLetter = newDataArray[0][3];
+  const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
+
+  console.log(position,email,entity,coverLetter,note);
+
+  var fromEmail = "davidmashe@gmail.com";
+  var toEmail = "davidmashe@gmail.com";
+  var subject = "from the cloud";
+  var message = "CLOOOOOUUUUUUD!";
+
+  var gmail = google.gmail('v1');
+
+  var raw = makeEmail(toEmail,fromEmail,subject,message);
+
+  gmail.users.messages.send({
+    auth: authObject,
+    userId: 'me',
+    resource: {
+      raw: raw
+    }
+  }, function(err, response) {
+    if (err) {
+      console.log("error in callback:");
+      console.log(err);
+      res.send(JSON.stringify({error:err}));
+    } else {
+      console.log("response:");
+      console.log(response);
+
+      const insertQuery = queries.insertApplication(
+        position,email,entity,coverLetter,note);
+
+      console.log(insertQuery);
+
+      var query = client.query(insertQuery);
+      query.on("row", (row, result) => { 
+        result.addRow(row); 
+      });
+      query.on("end", (result) => { 
+        console.log("result after insert:");
+        console.log(result);
+        res.send(result.rows); 
+      });
+    }
+  }); // close send email function
+
 });
 
 app.listen(PORT,() => {
@@ -91,7 +180,7 @@ app.listen(PORT,() => {
 
 
 
-// begin function definitions
+// -- begin function definitions
 
 function authorize(credentials, callback) {
   var clientSecret = credentials[CLIENT_SECRET_KEY].client_secret;
@@ -166,4 +255,37 @@ function listLabels(auth) {
   });
 }
 
-// end function definitions
+function sendEmail(auth) {
+
+  console.log(auth);
+  console.log(JSON.stringify(auth));
+
+  var fromEmail = "davidmashe@gmail.com";
+  var toEmail = "davidmashe@gmail.com";
+  //var toEmail = "dashe@proclivitysystems.com";
+  var subject = "from eve";
+  var message = "HENLO! (rickroll)";
+
+  var gmail = google.gmail('v1');
+
+  var raw = makeEmail(toEmail,fromEmail,subject,message);
+
+  gmail.users.messages.send({
+    auth: auth,
+    userId: 'me',
+    resource: {
+        raw: raw
+    }
+  }, function(err, response) {
+    if (err) {
+      console.log("error in callback:");
+      console.log(err);
+    } else {
+      console.log("response:");
+      console.log(response);
+    }
+  });
+   
+}
+
+// --- end function definitions

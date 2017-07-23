@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>OAuth success</title>
+	<title>Authorized!</title>
 	<style type="text/css">
-		.code {
-			background-color: #d9d9d9;
-		}
+
 	</style>
 </head>
 <body>
 	<h1>OAuth credentials acquired!</h1>
-	<p>Head back to your server and <b>CTL+C</b> to end the process.</p>
-	<p>Run <code class="code">npm start</code> in your console and then head to localhost:3000 to use Applilanche</p>
+	<p>Click below to load Applilanche</p>
+	<button id="applilanche-button">Applilanche!</button>
+
+
+	<script type="text/javascript">
+		window.onload = function()	{
+			var domain = window.location.protocol + "//" + window.location.host;
+			var button = document.getElementById("applilanche-button");
+			button.addEventListener("click",function() {
+				window.location.href = domain + "/";
+			});
+		} 
+	</script>
+
 </body>
 </html>

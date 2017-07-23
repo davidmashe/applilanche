@@ -63,7 +63,7 @@ const appData = (state,action) => {
 			console.log(auth);
 
 			if (auth.url) {
-				console.log("BREH!");
+				console.log("auth.url",auth.url);
 				window.location.href = auth.url;
 			} else { 
 				return squish(state,{auth:null});
