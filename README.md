@@ -12,6 +12,8 @@ CONDITIONALLY REQUIRED:
 
 -Gmail account & gmail developer key (to apply via email)
 
+https://console.developers.google.com/
+
 -Python (to apply via webscraping - not yet built)
 
 -PostgreSQL (to keep track of where you have applied already)
@@ -28,7 +30,9 @@ SETUP INSTRUCTIONS:
 
 Applilanche automatically looks for Postgres and a gmail OAuth token file.
 
-To disable these, look at env.js
+To disable these, look at env.js. 
+
+Other configuration values come from env.js,too.
 
 DEVELOPMENT ROADMAP:
 

@@ -5,6 +5,7 @@ const USE_POSTGRES = false;
 const USE_OAUTH = false;
 const MY_EMAIL = "your_email_goes_here@gmail.com"; // you must have a gmail address!
 const WEBPAGE_URL = "http://you.github.io";
+const RESUME_URL = "http://whereyouhostyourresume.com";
 
 const env = {
 	USE_POSTGRES : (process.env.USE_POSTGRES) 
@@ -18,7 +19,10 @@ const env = {
 			: MY_EMAIL,
 	WEBPAGE_URL : (process.env.WEBPAGE_URL)
 		? process.env.WEBPAGE_URL
-			: WEBPAGE_URL			
+			: WEBPAGE_URL,			
+	RESUME_URL : (process.env.RESUME_URL)
+		? process.env.RESUME_URL
+			: RESUME_URL		
 }
 
 module.exports = env
