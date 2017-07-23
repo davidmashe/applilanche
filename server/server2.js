@@ -69,7 +69,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 createController(app,client,USE_POSTGRES,USE_OAUTH);
 
 app.get("/oauthcallback",(req,res) => {
-  console.log("OAUTH CALLBACK!");
 
   const code = req.query.code;
 
@@ -81,14 +80,12 @@ app.get("/oauthcallback",(req,res) => {
     oauth2Client.credentials = token;
     storeToken(token);
     //res.redirect("/");
-    res.sendFile(path.resolve("public/oauth_callback.html"))
+    res.sendFile(path.resolve("public/oauth_callback.html"));
   });
 });
 
 app.get("/auth_url",function(req,res) {
 	const response = {url:authUrl};
-  console.log("sending this resonse:");
-  console.log(JSON.stringify(response));
 	res.send(JSON.stringify(response));
 });
 
@@ -99,10 +96,6 @@ app.post("/emails/submit",(req,res) => {
     res.send(JSON.stringify(errorMessage));
     return;
   }
-
-  console.log("received request at /emails");
-  console.log("body is:",req.body);
-  console.log("body string is:",JSON.stringify(req.body));
 
   const newDataArray = [];
 
@@ -129,7 +122,7 @@ app.post("/emails/submit",(req,res) => {
   const coverLetter = newDataArray[0][3];
   const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
 
-  console.log(position,email,entity,coverLetter,note);
+  //console.log(position,email,entity,coverLetter,note);
 
   var fromEmail = "davidmashe@gmail.com";
   var toEmail = "davidmashe@gmail.com";
@@ -158,7 +151,7 @@ app.post("/emails/submit",(req,res) => {
       const insertQuery = queries.insertApplication(
         position,email,entity,coverLetter,note);
 
-      console.log(insertQuery);
+      console.log("insert query:",insertQuery);
 
       var query = client.query(insertQuery);
       query.on("row", (row, result) => { 
@@ -222,6 +215,7 @@ function storeToken(token) {
     }
   }
   fs.writeFile(TOKEN_PATH, JSON.stringify(token));
+  authUrl = '';
   console.log('Token stored to ' + TOKEN_PATH);
 }
 
@@ -255,37 +249,36 @@ function listLabels(auth) {
   });
 }
 
-function sendEmail(auth) {
+// function sendEmail(auth) {
 
-  console.log(auth);
-  console.log(JSON.stringify(auth));
+//   console.log(auth);
+//   console.log(JSON.stringify(auth));
 
-  var fromEmail = "davidmashe@gmail.com";
-  var toEmail = "davidmashe@gmail.com";
-  //var toEmail = "dashe@proclivitysystems.com";
-  var subject = "from eve";
-  var message = "HENLO! (rickroll)";
+//   var fromEmail = "davidmashe@gmail.com";
+//   var toEmail = "davidmashe@gmail.com";
+//   var subject = "from the cloud";
+//   var message = "CLOUD!";
 
-  var gmail = google.gmail('v1');
+//   var gmail = google.gmail('v1');
 
-  var raw = makeEmail(toEmail,fromEmail,subject,message);
+//   var raw = makeEmail(toEmail,fromEmail,subject,message);
 
-  gmail.users.messages.send({
-    auth: auth,
-    userId: 'me',
-    resource: {
-        raw: raw
-    }
-  }, function(err, response) {
-    if (err) {
-      console.log("error in callback:");
-      console.log(err);
-    } else {
-      console.log("response:");
-      console.log(response);
-    }
-  });
+//   gmail.users.messages.send({
+//     auth: auth,
+//     userId: 'me',
+//     resource: {
+//         raw: raw
+//     }
+//   }, function(err, response) {
+//     if (err) {
+//       console.log("error in callback:");
+//       console.log(err);
+//     } else {
+//       console.log("response:");
+//       console.log(response);
+//     }
+//   });
    
-}
+// }
 
 // --- end function definitions

@@ -6,7 +6,7 @@ import { API_ROOT } from '../../constants/constants.js';
 
 const mapStateToProps = (state) => {
 
-	console.log("state:",state);
+	// console.log("state:",state);
 
 	const { dummyValue, emailSubmitData, tabSelected } = state.email;
 	const { coverLetters } = state.appData;
@@ -56,16 +56,16 @@ const mapDispatchToProps = (dispatch) => {
 			//callback("dude");
 
 			AJAX.post(API_ROOT + "/emails/submit",emailsArray,callback);
-		},
-
-		testGet : () => {
-
-			const callback = (response) => {
-				console.log(response);
-			}
-
-			AJAX.get(API_ROOT + "/test",callback);
 		}
+
+		// testGet : () => {
+
+		// 	const callback = (response) => {
+		// 		console.log(response);
+		// 	}
+
+		// 	AJAX.get(API_ROOT + "/test",callback);
+		// }
 
 	}
 }

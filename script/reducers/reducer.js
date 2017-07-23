@@ -1,4 +1,3 @@
-// import { combineReducers } from 'react-redux';
 import { combineReducers } from 'redux';
 
 // hacky helper function
@@ -57,17 +56,26 @@ const appData = (state,action) => {
 
 	switch(action.type) {
 		case "RECEIVE_AUTH": 
+			console.log("reducer has action.payload of:");
+			console.log(action.payload);
+
 			const auth = (action.payload) 
 				? JSON.parse(action.payload) 
 					: {url:null};
+					
+			console.log("reducer has auth of:");
 			console.log(auth);
 
 			if (auth.url) {
-				console.log("auth.url",auth.url);
-				window.location.href = auth.url;
+				//console.log("auth.url",auth.url);
+				//window.location.href = auth.url;
+				return squish(state,{auth:auth.url});
 			} else { 
 				return squish(state,{auth:null});
 			}	
+
+		case "WIPE_AUTH_DATA":
+			return squish(state,{auth:null});
 			
 		default:
 			return squish(state,{});

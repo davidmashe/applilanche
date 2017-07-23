@@ -2,6 +2,7 @@ import React from 'react';
 import HeaderBar from './components/header/headerbar.js';
 import Email from './components/email/emailContainer.js';
 import Scraper from './components/scraper/scraperContainer.js';
+import AuthScreen from './components/auth/authScreen.js';
 
 class Main extends React.Component {
 
@@ -22,6 +23,7 @@ class Main extends React.Component {
 	}
 
 	getBodyContent() {
+
 		switch (this.props.headerSelected) {
 			case 0:
 				return <Email />
@@ -33,10 +35,20 @@ class Main extends React.Component {
 	}
 
 	render() {
+
+		const { authURL, wipeAuth } = this.props;
+
 		return (
 			<div>
 				<HeaderBar onClick={this.handleHeaderTabChange} />
-				{this.getBodyContent()}
+				{
+					(this.props.authURL) 
+						? <AuthScreen 
+							authURL={authURL}
+							wipeAuth={wipeAuth}
+						/>
+							: this.getBodyContent()
+				}
 			</div>
 		);
 	}
