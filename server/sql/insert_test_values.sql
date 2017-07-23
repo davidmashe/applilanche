@@ -1,0 +1,2 @@
+INSERT INTO application_record VALUES (nextval('ar_seq'),'head guy','company one','guy@dude.com',now(),'default','');
+INSERT INTO application_record VALUES (nextval('ar_seq'),'chief bro','bro corp','duuuuude@brocorp.com',now(),'default','job search is so haaaaard');

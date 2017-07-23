@@ -28,11 +28,13 @@ function objectToParams(object) {
 
 export default {
   get : function(url,successCallback){
+    console.log("URL",url);
     var xhr = prepXHR(successCallback);
     xhr.open("GET",url);
     xhr.send();
   },
   post : function(url,body,successCallback){
+    console.log("URL",url);
     var xhr = prepXHR(successCallback);
     xhr.open("POST",url);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

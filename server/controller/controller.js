@@ -1,24 +1,25 @@
-const createController = (app,db) => {
+const queries = require('../sql/queries.js');
 
-	app.get("/test",(req,res) => {
-		res.send("/test working");
-	});
+const createController = (app,client,USE_POSTGRES,USE_OAUTH) => {
 
-	app.get("/emails",(req,res) => {
-		res.send("breh");
+	app.get("/app_records/all",(req,res) => {
+
+		if (!USE_POSTGRES) {
+			const errorMessage = {error:"postgres not connected"};
+			res.send(JSON.stringify(errorMessage));
+			return;
+		}
+
+		var query = client.query(queries.getAllApplicationRecords());
+		query.on("row", (row, result) => { 
+			result.addRow(row); 
+		});
+		query.on("end", (result) => { 
+			res.send(result.rows); 
+		});	
 	});
 
 	// end point to support Google OAuth flow
-	app.get("/oauthcallback",(req,res) => {
-		console.log("req.query:",req.query);
-
-		// get req.query.code
-
-		//do some OAuth shit with code (probably store token)
-
-		// render index.html and start the app!
-		res.sendFile("main.html");
-	});
 
 	app.get("/test-send-html",(req,res) => {
 
@@ -26,12 +27,66 @@ const createController = (app,db) => {
 			{root:"/home/david/applilanche"});
 	});
 
-	app.post("/emails",(req,res) => {
-		console.log("received request at /emails");
-		console.log("body is:",JSON.stringify(req.body));
+	// app.post("/emails/submit",(req,res) => {
 
-		res.send("you sent: " + JSON.stringify(req.body));
-	});
+	// 	if (!USE_POSTGRES) {
+	// 		const errorMessage = {error:"postgres not connected"};
+	// 		res.send(JSON.stringify(errorMessage));
+	// 		return;
+	// 	}
+
+	// 	console.log("received request at /emails");
+	// 	console.log("body is:",req.body);
+	// 	console.log("body string is:",JSON.stringify(req.body));
+
+	// 	const newDataArray = [];
+
+	// 	const keys = Object.keys(req.body);
+
+	// 	keys.map((key) => {
+	// 		var intKey;
+	// 		try {
+	// 			intKey = parseInt(key);
+	// 		} catch (e) {
+	// 			return undefined;
+	// 		}
+	// 		newDataArray[intKey] = JSON.parse(req.body[key]);	
+	// 	});
+
+	// 	if (!newDataArray) {
+	// 		res.send({status:"error"});
+	// 		return;
+	// 	}
+
+	// 	const email = newDataArray[0][0];
+	// 	const entity = newDataArray[0][1];
+	// 	const position = newDataArray[0][2];
+	// 	const coverLetter = newDataArray[0][3];
+	// 	const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
+
+	// 	console.log(position,email,entity,coverLetter,note);
+
+	// 	try {
+	// 		// send email here
+	// 		console.log("*** send email goes here ***");
+	// 	} catch (e) {
+	// 		res.send({errorMessage:e});
+	// 		return;	
+	// 	}
+
+	// 	const insertQuery = queries.insertApplication(
+	// 		position,email,entity,coverLetter,note);
+
+	// 	console.log(insertQuery);
+
+	// 	var query = client.query(insertQuery);
+	// 	query.on("row", (row, result) => { 
+	// 		result.addRow(row); 
+	// 	});
+	// 	query.on("end", (result) => { 
+	// 		res.send(result.rows); 
+	// 	});
+	// });
 }
 
 module.exports = createController

@@ -20,6 +20,7 @@ class EmailSubmit extends React.Component {
 				<label value="cover letter:">cover letter -></label>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				{this.props.coverLetters.map((element,index) => {
+
 					return (
 						<span>
 							<label value={element}>{element}</label>
@@ -32,7 +33,7 @@ class EmailSubmit extends React.Component {
 										this.props.handleRadioCheck(i,element);
 									}
 								}
-								checked={this.props.data.radio === element}
+								checked={this.props.data[3] === element}
 							/>
 						</span>	
 					)
@@ -51,7 +52,7 @@ class EmailSubmit extends React.Component {
 			<div className="email-submit-box">
 				<input 
 					type="text" 
-					placeholder="email"
+					placeholder="email (required)"
 					onChange={
 						(event) => {
 							handleType(index, 0, event.target.value)
@@ -61,7 +62,7 @@ class EmailSubmit extends React.Component {
 				/>
 				<input 
 					type="text" 
-					placeholder="company or opportunity"
+					placeholder="company or opportunity (required)"
 					onChange={
 						(event) => {
 							handleType(index, 1, event.target.value)
@@ -69,16 +70,26 @@ class EmailSubmit extends React.Component {
 					}
 					value={data[1]}
 				/>
-				{this.getRadioButtons()}
 				<input 
 					type="text" 
-					placeholder="notes (optional)"
+					placeholder="job title (required)"
 					onChange={
 						(event) => {
 							handleType(index, 2, event.target.value)
 						}
 					}
 					value={data[2]}
+				/>				
+				{this.getRadioButtons()}
+				<input 
+					type="text" 
+					placeholder="notes (optional)"
+					onChange={
+						(event) => {
+							handleType(index, 4, event.target.value)
+						}
+					}
+					value={data[4]}
 				/>
 			</div>
 		);
@@ -91,11 +102,16 @@ const EmailSubmitList = (props) => {
 	const { coverLetters, handleRadioCheck, handleTextInput,
 		emailSubmitData } = props;
 
-	const array = [0,1,2,3,4];
+	//const array = [0,1,2,3,4];
+	// submit one email at a time, for now
+	const array = [0]
+
+	//console.log(emailSubmitData);
 
 	return (
 		<div>
 			{array.map((element) => {
+
 				return (
 					<EmailSubmit 
 						key={"email-submit-" + element}

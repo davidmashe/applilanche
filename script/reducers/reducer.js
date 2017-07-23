@@ -1,4 +1,3 @@
-// import { combineReducers } from 'react-redux';
 import { combineReducers } from 'redux';
 
 // hacky helper function
@@ -21,8 +20,6 @@ const header = (state,action) => {
 
 const email = (state,action) => {
 
-	console.log(action);
-
 	switch (action.type) {
 
 		case "UPDATE_EMAIL_VALUE":
@@ -30,8 +27,8 @@ const email = (state,action) => {
 			const index = action.value.index;
 			const subIndex = action.value.subIndex;
 
-			const emailSubmitDataCopy = state.emailSubmitData.filter(() => {
-				return true });
+			const emailSubmitDataCopy = 
+				state.emailSubmitData.filter(() => {return true});
 
 			emailSubmitDataCopy[index][subIndex] = action.value.value;
 
@@ -54,7 +51,28 @@ const scraper = (state,action) => {
 }
 
 const appData = (state,action) => {
-	return squish(state,{});
+
+	switch(action.type) {
+		case "RECEIVE_AUTH": 
+
+			const auth = (action.payload) 
+				? JSON.parse(action.payload) 
+					: {url:null};
+
+			if (auth.url) {
+				//console.log("auth.url",auth.url);
+				//window.location.href = auth.url;
+				return squish(state,{auth:auth.url});
+			} else { 
+				return squish(state,{auth:null});
+			}	
+
+		case "WIPE_AUTH_DATA":
+			return squish(state,{auth:null});
+			
+		default:
+			return squish(state,{});
+	}
 }
 
 const combinedReducer = combineReducers({

@@ -1,6 +1,7 @@
 import React from 'react';
 import EmailSubmitList from './emailSubmitList.js';
 import EmailUpload from './emailUpload.js';
+import { filterEmailsObject } from '../../lib/util.js';
 
 class Email extends React.Component {
 
@@ -34,7 +35,12 @@ class Email extends React.Component {
 					<div>
 					<h1>Apply By Email</h1>
 					<button 
-						onClick={() => { submitEmailsToAPI(emailSubmitData) }} 
+						onClick={() => { 
+								const filtered = 
+									filterEmailsObject(emailSubmitData);	
+								submitEmailsToAPI(filtered); 
+							}
+						} 
 					>
 						Apply
 					</button>
@@ -55,7 +61,9 @@ class Email extends React.Component {
 				{ (tabSelected === "upload") ?
 					<div>
 					<h1>Upload CSV</h1>
-					<button>Choose File</button>
+					<button onClick={() => alert("coming soon!")}>
+						Choose File
+					</button>
 					<EmailUpload 
 						coverLetters={this.props.coverLetters}
 						handleTextInput={handleTextInput}

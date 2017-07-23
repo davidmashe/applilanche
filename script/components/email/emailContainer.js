@@ -6,6 +6,8 @@ import { API_ROOT } from '../../constants/constants.js';
 
 const mapStateToProps = (state) => {
 
+	// console.log("state:",state);
+
 	const { dummyValue, emailSubmitData, tabSelected } = state.email;
 	const { coverLetters } = state.appData;
 
@@ -33,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 		handleRadioCheck : (index,value) => {
 			const actionValue = {
 				index,
-				subIndex:"radio",
+				subIndex:3,
 				value
 			}
 			dispatch({type:"UPDATE_EMAIL_VALUE",value:actionValue});
@@ -43,9 +45,9 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch({type:"EMAIL_TAB_CHANGE",value:value});
 		},
 
-		submitEmailsToAPI : (emailsObject) => {
+		submitEmailsToAPI : (emailsArray) => {
 
-			console.log(JSON.stringify(emailsObject));
+			//console.log(JSON.stringify(emailsObject));
 
 			const callback = (response) => {
 				dispatch({type:"API_RESPONSE.SUBMIT_EMAILS",value:response});
@@ -53,17 +55,17 @@ const mapDispatchToProps = (dispatch) => {
 
 			//callback("dude");
 
-			AJAX.post(API_ROOT + "/emails",emailsObject,callback);
-		},
-
-		testGet : () => {
-
-			const callback = (response) => {
-				console.log(response);
-			}
-
-			AJAX.get(API_ROOT + "/test",callback);
+			AJAX.post(API_ROOT + "/emails/submit",emailsArray,callback);
 		}
+
+		// testGet : () => {
+
+		// 	const callback = (response) => {
+		// 		console.log(response);
+		// 	}
+
+		// 	AJAX.get(API_ROOT + "/test",callback);
+		// }
 
 	}
 }

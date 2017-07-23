@@ -5,4 +5,5 @@ public/bundle.js
 client_id.json
 client_secret.json
 .credentials/
-hidey_hole
+hidey_hole/
+npm-debug.log

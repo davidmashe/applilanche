@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Authorized!</title>
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<h1>OAuth credentials acquired!</h1>
+	<p>Click below to load Applilanche</p>
+	<button id="applilanche-button">Applilanche!</button>
+
+
+	<script type="text/javascript">
+		window.onload = function()	{
+			var domain = window.location.protocol + "//" + window.location.host;
+			var button = document.getElementById("applilanche-button");
+			button.addEventListener("click",function() {
+				window.location.href = domain + "/";
+			});
+		} 
+	</script>
+
+</body>
+</html>
