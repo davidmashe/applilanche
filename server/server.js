@@ -146,21 +146,9 @@ app.post("/emails/submit",(req,res) => {
   var subject = `Re: ${position}`;
   var message = coverLetterGenerator[coverLetter](entity, position,WEBPAGE_URL);
 
-  // console.log(position,email,entity,coverLetter,note);
-  // console.log("cover letter:");
-  // console.log(message);
-
   var gmail = google.gmail('v1');
 
   var raw = makeEmail(email,MY_EMAIL,subject,message);
-
-  // const emailObject = {};
-  // emailObject.toEmail = email;
-  // emailObject.subject = subject;
-  // emailObject.messages = message;
-  // emailObject.fromEmail = MY_EMAIL;
-
-  // res.send(JSON.stringify(emailObject));
 
   gmail.users.messages.send({
     auth: authObject,

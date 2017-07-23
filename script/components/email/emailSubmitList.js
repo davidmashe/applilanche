@@ -48,8 +48,6 @@ class EmailSubmit extends React.Component {
 
 		const handleType = this.props.handleTextInput;
 
-		console.log(data);
-
 		return (
 			<div className="email-submit-box">
 				<input 

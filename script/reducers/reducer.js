@@ -20,8 +20,6 @@ const header = (state,action) => {
 
 const email = (state,action) => {
 
-	console.log(action);
-
 	switch (action.type) {
 
 		case "UPDATE_EMAIL_VALUE":
@@ -56,15 +54,10 @@ const appData = (state,action) => {
 
 	switch(action.type) {
 		case "RECEIVE_AUTH": 
-			console.log("reducer has action.payload of:");
-			console.log(action.payload);
 
 			const auth = (action.payload) 
 				? JSON.parse(action.payload) 
 					: {url:null};
-					
-			console.log("reducer has auth of:");
-			console.log(auth);
 
 			if (auth.url) {
 				//console.log("auth.url",auth.url);

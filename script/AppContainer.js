@@ -5,9 +5,6 @@ import AJAX from './lib/ajax.js';
 
 const mapStateToProps = (state) => {
 
-	console.log("AppContainer has state.appData of:");
-	console.log(state.appData);
-
 	const { auth } = state.appData;
 
 	return {
