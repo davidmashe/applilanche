@@ -1,4 +1,4 @@
-const RESUME_URL = require('env.js').RESUME_URL;
+const RESUME_URL = require('../../env.js').RESUME_URL;
 
 const coverLetterGenerator = {};
 
