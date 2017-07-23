@@ -143,7 +143,7 @@ app.post("/emails/submit",(req,res) => {
   const coverLetter = newDataArray[0][3];
   const note = (newDataArray[0].length > 4) ? newDataArray[0][4] : '';
 
-  var subject = `Re: ${position}`;
+  var subject = `Application for ${position}`;
   var message = coverLetterGenerator[coverLetter](entity, position,WEBPAGE_URL);
 
   var gmail = google.gmail('v1');
