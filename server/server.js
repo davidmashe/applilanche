@@ -23,9 +23,11 @@ const WEBPAGE_URL = env.WEBPAGE_URL;
 
 var errorMessage;
 
-const pg = require("pg");
-var client = new pg.Client(conString);
-client.connect(); 
+// const pg = require("pg");
+// var client = new pg.Client(conString);
+// client.connect(); 
+
+const client = require('./sql/buildPostgresClient.js');
 
 console.log("USING OAUTH:",USE_OAUTH);
 console.log("USING POSTGRES:",USE_POSTGRES);

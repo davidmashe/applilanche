@@ -8,11 +8,11 @@ const WEBPAGE_URL = "http://you.github.io";
 const RESUME_URL = "http://whereyouhostyourresume.com";
 
 const env = {
-	USE_POSTGRES : (process.env.USE_POSTGRES) 
-		? process.env.USE_POSTGRES 
+	USE_POSTGRES : (process.env.USE_POSTGRES == "true") 
+		? true 
 			: USE_POSTGRES,
-	USE_OAUTH : (process.env.USE_OAUTH) 
-		? process.env.USE_OAUTH 
+	USE_OAUTH : (process.env.USE_OAUTH == "true") 
+		? true 
 			: USE_OAUTH,
 	MY_EMAIL : (process.env.MY_EMAIL)
 		? process.env.MY_EMAIL
