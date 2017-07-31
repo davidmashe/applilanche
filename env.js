@@ -1,19 +1,23 @@
 // best pactice is to set environment variables
 // but as a backup this file can be used to set app-wide variables
 
-const USE_POSTGRES = false;
-const USE_OAUTH = false;
+var USE_POSTGRES = false;
+var USE_OAUTH = false;
 const MY_EMAIL = "your_email_goes_here@gmail.com"; // you must have a gmail address!
 const WEBPAGE_URL = "http://you.github.io";
 const RESUME_URL = "http://whereyouhostyourresume.com";
 
+if (process.env.USE_POSTGRES === "true") {
+	USE_POSTGRES = true;
+} 
+
+if (process.env.USE_OAUTH === "true") {
+	USE_OAUTH = true;
+} 
+
 const env = {
-	USE_POSTGRES : (process.env.USE_POSTGRES == "true") 
-		? true 
-			: USE_POSTGRES,
-	USE_OAUTH : (process.env.USE_OAUTH == "true") 
-		? true 
-			: USE_OAUTH,
+	USE_POSTGRES : USE_POSTGRES,
+	USE_OAUTH : USE_OAUTH,
 	MY_EMAIL : (process.env.MY_EMAIL)
 		? process.env.MY_EMAIL
 			: MY_EMAIL,
@@ -25,4 +29,5 @@ const env = {
 			: RESUME_URL		
 }
 
-module.exports = env
+console.log(env);
+//module.exports = env
