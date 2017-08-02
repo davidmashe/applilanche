@@ -26,6 +26,8 @@ SETUP INSTRUCTIONS:
 
 -`npm install`
 
+-`npm build`
+
 -`npm start`
 
 Applilanche automatically looks for Postgres and a gmail OAuth token file.
