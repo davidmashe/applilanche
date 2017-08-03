@@ -22,6 +22,7 @@
     "js-base64": "^2.1.9",
     "pg": "^6.4.1",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.2",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "redux": "^3.7.0",
