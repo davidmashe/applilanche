@@ -2,6 +2,7 @@ import React from 'react';
 import EmailSubmitList from './emailSubmitList.js';
 import EmailUpload from './emailUpload.js';
 import { filterEmailsObject } from '../../lib/util.js';
+import { Tab, Tabs } from 'react-bootstrap';
 
 class Email extends React.Component {
 
@@ -11,71 +12,55 @@ class Email extends React.Component {
 
 	render() {
 
-		const { handleTextInput, handleRadioCheck, emailSubmitData, 
-			tabSelected, emailTabChange, submitEmailsToAPI, testGet 
+		const { handleTextInput, handleRadioCheck, emailSubmitData,
+			tabSelected, emailTabChange, submitEmailsToAPI, testGet
 			} = this.props;
 
 		return (
-			<div>
-				<ul className="header-list">
-					<li 
-						className="header-item"
-						onClick={() => {emailTabChange("submit")}} 
-					>
-						Submit Emails
-					</li>
-					<li 
-						className="header-item"
-						onClick={() => {emailTabChange("upload")}} 
-					>
-						Upload Spreadsheet
-					</li>
-				</ul>
-				{ (tabSelected === "submit") ?
+  		<Tabs defaultActiveKey={1} id="enter-email-tabs">
+				<Tab eventKey={1} title="Submit Emails">
 					<div>
 					<h1>Apply By Email</h1>
-					<button 
-						onClick={() => { 
-								const filtered = 
-									filterEmailsObject(emailSubmitData);	
-								submitEmailsToAPI(filtered); 
+					<button
+						onClick={() => {
+								const filtered =
+									filterEmailsObject(emailSubmitData);
+								submitEmailsToAPI(filtered);
 							}
-						} 
+						}
 					>
 						Apply
 					</button>
-					<button 
-						onClick={() => { testGet() }} 
+					<button
+						onClick={() => { testGet() }}
 					>
 						Test
 					</button>
-					<EmailSubmitList 
+					<EmailSubmitList
 						coverLetters={this.props.coverLetters}
 						handleTextInput={handleTextInput}
 						handleRadioCheck={handleRadioCheck}
 						emailSubmitData={emailSubmitData}
 					/>
 					</div>
-					: <div></div> 
-				}					
-				{ (tabSelected === "upload") ?
+				</Tab>
+				<Tab eventKey={2} title="Upload Spreadsheet">
 					<div>
 					<h1>Upload CSV</h1>
 					<button onClick={() => alert("coming soon!")}>
 						Choose File
 					</button>
-					<EmailUpload 
+					<EmailUpload
 						coverLetters={this.props.coverLetters}
 						handleTextInput={handleTextInput}
 						handleRadioCheck={handleRadioCheck}
 						emailSubmitData={emailSubmitData}
 					/>
 					</div>
-					: <div></div>
-				}
-			</div>
+				</Tab>
+			</Tabs>
 		);
 	}
-} 
+}
 
 export default Email
