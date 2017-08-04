@@ -11,21 +11,21 @@ class HeaderBar extends React.Component {
 		return (
 			<div className="header-box">
 				<ul className="header-list">
-					<li 
+					<li
 						className="header-item"
 						onClick={() => {this.props.onClick(0)}}
 					>
 						Enter Emails
 					</li>
-					<li 
+					<li
 						className="header-item"
 						onClick={() => {this.props.onClick(1)}}
 					>
 						Apply Via Scraper
-					</li>	
+					</li>
 					<li
 						className="header-item"
-						onClick={() => {alert("COMING SOON")}}
+						onClick={() => {console.log('HERE!#!@$@#$');this.props.onClick(2)}}
 					>
 						Application History
 					</li>
@@ -33,6 +33,6 @@ class HeaderBar extends React.Component {
 			</div>
 		);
 	}
-} 
+}
 
 export default HeaderBar
