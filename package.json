@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "webpack": "node_modules/webpack/bin/webpack.js",
     "dev": "webpack-dev-server --progress --inline --hot --history-api-fallback --port 3000",
     "build": "export NODE_ENV=production && node_modules/webpack/bin/webpack.js -p",
@@ -29,9 +29,12 @@
   },
   "devDependencies": {
     "babel-core": "^6.9.1",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "jest": "^20.0.4",
+    "react-test-renderer": "^15.6.1",
     "webpack": "2",
     "webpack-dev-server": "^2.5.0"
   }
