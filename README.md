@@ -44,6 +44,10 @@ DEVELOPMENT ROADMAP:
 
 -Make UI less of an eyesore
 
+TO CONTRIBUTE:
+
+see issues for contribution ideas. If you have a PR, please send it at brand `pr_receiver`
+
 THANK YOU TO THOSE WHO HAVE CONTRIBUTED:
 
 marina-h
