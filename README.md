@@ -46,7 +46,7 @@ DEVELOPMENT ROADMAP:
 
 TO CONTRIBUTE:
 
-see issues for contribution ideas. If you have a PR, please send it at brand `pr_receiver`
+see issues for contribution ideas. If you have a PR, please send it at branch `pr_receiver`
 
 THANK YOU TO THOSE WHO HAVE CONTRIBUTED:
 
