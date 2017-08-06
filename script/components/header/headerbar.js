@@ -20,6 +20,29 @@ class HeaderBar extends React.Component {
 
 	render() {
 		return (
+      {/*
+			<div className="header-box">
+				<ul className="header-list">
+					<li
+						className="header-item"
+						onClick={() => {this.props.onClick(0)}}
+					>
+						Enter Emails
+					</li>
+					<li
+						className="header-item"
+						onClick={() => {this.props.onClick(1)}}
+					>
+						Apply Via Scraper
+					</li>
+					<li
+						className="header-item"
+						onClick={() => {console.log('HERE!#!@$@#$');this.props.onClick(2)}}
+					>
+						Application History
+					</li>
+				</ul>
+          */}
 		   <div>
 			  <Nav bsStyle="tabs" activeKey={this.state.selected} onSelect={this.handleSelect}>
 	        <NavItem eventKey="0">Enter Emails</NavItem>

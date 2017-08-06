@@ -3,6 +3,7 @@ import HeaderBar from './components/header/headerbar.js';
 import Email from './components/email/emailContainer.js';
 import Scraper from './components/scraper/scraperContainer.js';
 import AuthScreen from './components/auth/authScreen.js';
+import History from './components/history/history.js';
 
 class Main extends React.Component {
 
@@ -28,9 +29,11 @@ class Main extends React.Component {
 			case 0:
 				return <Email />
 			case 1:
-				return <Scraper />	
+				return <Scraper />
+			case 2:
+				return <History />
 			default:
-				return <div>default content goes here</div>	
+				return <div>default content goes here</div>
 		}
 	}
 
@@ -42,8 +45,8 @@ class Main extends React.Component {
 			<div>
 				<HeaderBar onClick={this.handleHeaderTabChange} />
 				{
-					(this.props.authURL) 
-						? <AuthScreen 
+					(this.props.authURL)
+						? <AuthScreen
 							authURL={authURL}
 							wipeAuth={wipeAuth}
 						/>
@@ -52,6 +55,6 @@ class Main extends React.Component {
 			</div>
 		);
 	}
-} 
+}
 
 export default Main
