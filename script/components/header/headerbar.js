@@ -21,11 +21,11 @@ class HeaderBar extends React.Component {
 	render() {
 		return (
 		   <div>
-			  <Nav bsStyle="tabs" activeKey={this.state.selected} onSelect={this.handleSelect}>
-	        <NavItem eventKey="0">Enter Emails</NavItem>
-	        <NavItem eventKey="1">Apply Via Scraper</NavItem>
-	        <NavItem eventKey="2">Application History</NavItem>
-	      </Nav>
+				<Nav bsStyle="tabs" activeKey={this.state.selected} onSelect={this.handleSelect}>
+	        		<NavItem eventKey="0">Enter Emails</NavItem>
+	        		<NavItem eventKey="1">Apply Via Scraper</NavItem>
+	        		<NavItem eventKey="2">Application History</NavItem>
+	      		</Nav>
 			</div>
 		);
 	}

@@ -43,3 +43,11 @@ DEVELOPMENT ROADMAP:
 -Turn webscraper into automated cron job
 
 -Make UI less of an eyesore
+
+THANK YOU TO THOSE WHO HAVE CONTRIBUTED:
+
+marina-h
+jrleja0
+phoyt1
+rachelfreya
+LosGimenos
